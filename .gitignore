@@ -12,6 +12,7 @@
 /.vscode
 /.zed
 /auth.json
+/LPS.zip
 /database/lps_vmi.sql
 /node_modules
 /public/build
