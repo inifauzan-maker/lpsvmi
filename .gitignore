@@ -13,6 +13,7 @@
 /.zed
 /auth.json
 /LPS.zip
+/LPS VMI.html
 /database/lps_vmi.sql
 /node_modules
 /public/build
