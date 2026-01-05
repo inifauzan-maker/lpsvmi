@@ -1,0 +1,3119 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bimbel Gambar Villa Merah</title>
+  <link rel="icon" type="image/png" href="https://uploads.onecompiler.io/43yd3nkbg/43yhn3nsq/logo-2.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+        /* OPTIMASI RESPONSIF GLOBAL (FLUID UI) */
+        html {
+            font-size: 14px; /* Default untuk laptop 14 inci */
+        }
+        @media (min-width: 1600px) {
+            html { font-size: 16px; } 
+        }
+        @media (min-width: 2500px) {
+            html { font-size: 20px; } 
+        }
+
+        body {
+            box-sizing: border-box;
+            overflow: hidden; 
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-item:hover {
+            transform: translateX(3px);
+        }
+        
+        .sidebar-item.group:active {
+            transform: scale(0.98);
+        }
+
+        /* Styling Khusus Material Icons agar selaras dengan Google Drive style */
+        .material-symbols-rounded {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 22px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .active-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 30vh; 
+            min-height: 300px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border: 1px solid #e5e7eb; 
+            width: 100%;
+            background: white;
+        }
+        
+        table {
+            min-width: 100%;
+            border-collapse: collapse; 
+            table-layout: auto !important;
+        }
+
+        th, td {
+            border: 1px solid #e5e7eb; 
+            padding: 8px 12px !important;
+            white-space: nowrap;
+        }
+
+        /* Styling Judul Kolom (Header) */
+        th {
+            text-align: center !important;
+            vertical-align: middle !important;
+            text-transform: uppercase !important;
+            font-size: 10px !important;
+            letter-spacing: 0.05em;
+        }
+
+        .col-aksi {
+            min-width: 120px !important;
+            width: 120px !important;
+            white-space: nowrap !important;
+        }
+
+        .allow-wrap {
+            white-space: normal !important;
+            min-width: 180px;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(37, 99, 235, 0.3);
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .poppins-title {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.2px;
+        }
+
+        #main-content {
+            max-width: 2400px;
+            margin: 0 auto;
+        }
+
+        .logo-vm-img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 text-gray-800 font-sans flex flex-col">
+  
+  <header id="top-header" class="w-full bg-white shadow-md border-b border-gray-200 z-50 hidden">
+    <div class="px-6 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+          <img src="https://uploads.onecompiler.io/43yd3nkbg/43yhn3nsq/logo-2.png" alt="Logo VM" class="logo-vm-img">
+        </div>
+        <div>
+          <h1 class="poppins-title text-xl font-extrabold text-red-600 leading-tight uppercase tracking-tight">BIMBEL GAMBAR VILLA MERAH</h1>
+          <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Laporan Peraihan Siswa</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <div class="hidden md:flex items-center px-6 border-r border-gray-200">
+          <span class="text-sm font-semibold text-gray-600">
+            Selamat datang, <span id="header-user-display" class="text-blue-600 uppercase font-extrabold"></span>
+          </span>
+        </div>
+        <button onclick="handleLogout()" class="flex items-center gap-2 bg-red-50 text-red-600 px-5 py-2.5 rounded-xl font-extrabold text-xs hover:bg-red-600 hover:text-white transition-all shadow-sm uppercase">
+          <span class="material-symbols-rounded" style="font-size: 18px;">logout</span> LOGOUT
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1 w-full overflow-hidden">
+   <div id="sidebar-container" class="w-56 lg:w-60 xl:w-64 bg-white shadow-2xl overflow-y-auto border-r border-gray-200 hidden flex-shrink-0">
+    <nav class="p-4 mt-2" id="sidebar-nav">
+    </nav>
+   </div>
+
+   <div class="flex-1 overflow-auto">
+    <div class="p-4 md:p-8 2xl:p-12">
+     <div id="main-content">
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <script>
+        const daftarNamaBulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        const daftarSumberInfo = ["Instagram", "TikTok", "Facebook", "Twitter", "YouTube", "Brosur", "Poster", "Iklan Medsos", "Website", "Browsing", "Saudara", "Alumni VM", "Guru", "Orang Tua", "Teman", "Lainnya"];
+
+        let selectedProgramFilter = 'all';
+        let selectedYearFilter = 'all'; 
+        let selectedMonthFilter = (new Date().getMonth() + 1).toString(); 
+        let selectedLocationFilter = 'all'; 
+        let selectedStatusFilter = 'all'; 
+
+        let currentData = JSON.parse(localStorage.getItem('vmi_app_data')) || [];
+        let activityLogs = JSON.parse(localStorage.getItem('vmi_activity_logs')) || [];
+
+        function saveLog(action) {
+            if (!currentUser) return;
+            const now = new Date();
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            
+            const logEntry = {
+                userName: currentUser.name,
+                role: currentUser.role,
+                action: action,
+                date: now.toLocaleDateString('id-ID'),
+                day: days[now.getDay()],
+                time: now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                timestamp: now.getTime()
+            };
+            
+            activityLogs.unshift(logEntry); 
+            if(activityLogs.length > 1000) activityLogs.pop(); 
+            localStorage.setItem('vmi_activity_logs', JSON.stringify(activityLogs));
+        }
+
+        window.dataSdk = {
+            init: (handler) => {
+                handler.onDataChanged(currentData);
+            },
+            create: async (data) => {
+                const newData = { ...data, __backendId: Date.now().toString() };
+                currentData.push(newData);
+                localStorage.setItem('vmi_app_data', JSON.stringify(currentData));
+                saveLog(`Menambah data pada modul ${data.module || 'Unknown'}`);
+                if (dataHandler && dataHandler.onDataChanged) {
+                    dataHandler.onDataChanged(currentData);
+                }
+                return { isOk: true };
+            },
+            update: async (backendId, updatedFields) => {
+                const idx = currentData.findIndex(d => d.__backendId === backendId);
+                if (idx !== -1) {
+                    const oldData = currentData[idx];
+                    currentData[idx] = { ...currentData[idx], ...updatedFields };
+                    localStorage.setItem('vmi_app_data', JSON.stringify(currentData));
+                    saveLog(`Mengubah data pada modul ${oldData.module || 'Unknown'}`);
+                    if (dataHandler && dataHandler.onDataChanged) {
+                        dataHandler.onDataChanged(currentData);
+                    }
+                    return { isOk: true };
+                }
+                return { isOk: false };
+            },
+            delete: async (record) => {
+                currentData = currentData.filter(d => d.__backendId !== record.__backendId);
+                localStorage.setItem('vmi_app_data', JSON.stringify(currentData));
+                saveLog(`Menghapus data pada modul ${record.module || 'Unknown'}`);
+                if (dataHandler && dataHandler.onDataChanged) {
+                    dataHandler.onDataChanged(currentData);
+                }
+                return { isOk: true };
+            }
+        };
+
+        let userDatabase = JSON.parse(localStorage.getItem('vmi_users')) || [
+            { id: '1', username: 'admin', password: '123', role: 'admin', name: 'Super Admin' }
+        ];
+        let currentUser = JSON.parse(localStorage.getItem('vmi_user')) || null;
+
+        function handleLogin() {
+            const u = document.getElementById('log-user').value;
+            const p = document.getElementById('log-pass').value;
+            const user = userDatabase.find(x => x.username === u && x.password === p);
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('vmi_user', JSON.stringify(user));
+                saveLog('Berhasil Login ke Sistem');
+                location.reload();
+            } else {
+                alert('Username atau Password salah!');
+            }
+        }
+
+        function handleLogout() {
+            if(confirm('Logout dari sistem?')) {
+                saveLog('Keluar dari Sistem (Logout)');
+                localStorage.removeItem('vmi_user');
+                location.reload();
+            }
+        }
+
+        function renderLoginForm() {
+            document.getElementById('top-header').classList.add('hidden');
+            document.getElementById('sidebar-container').classList.add('hidden');
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="flex items-center justify-center min-h-[70vh]">
+                    <div class="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-2xl border border-blue-100 font-['Poppins']">
+                        <div class="flex items-center justify-center gap-6 mb-8 border-b pb-6">
+                             <div class="w-20 h-20 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                <img src="https://uploads.onecompiler.io/43yd3nkbg/43yhn3nsq/logo-2.png" alt="Logo VM" class="logo-vm-img">
+                            </div>
+                            <div class="text-left">
+                                <h2 class="text-3xl font-extrabold text-red-600 uppercase tracking-tight leading-tight">BIMBEL GAMBAR VILLA MERAH</h2>
+                                <p class="text-gray-500 text-xs font-bold uppercase tracking-widest mt-1">Laporan Peraihan Siswa</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 max-w-sm mx-auto">
+                            <input type="text" id="log-user" placeholder="Username" class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-400">
+                            <input type="password" id="log-pass" placeholder="Password" class="w-full p-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-400">
+                            <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition">MASUK</button>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function renderManajemenUser() {
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                            <span class="material-symbols-rounded">manage_accounts</span> Manajemen User
+                        </h2>
+                        <button onclick="showAddUserForm()" class="bg-blue-600 text-white px-4 py-2 rounded font-semibold">+ Tambah User</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="w-full text-sm">
+                            <thead class="bg-blue-600 text-white">
+                                <tr>
+                                    <th>NO</th>
+                                    <th>NAMA</th>
+                                    <th>USERNAME</th>
+                                    <th>PASSWORD</th>
+                                    <th>ROLE</th>
+                                    <th class="col-aksi">AKSI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${userDatabase.map((u, idx) => `
+                                    <tr class="border-b">
+                                        <td class="p-3 text-center font-mono">${idx + 1}</td>
+                                        <td class="p-3 uppercase font-bold text-left">${u.name}</td>
+                                        <td class="p-3">${u.username}</td>
+                                        <td class="p-3 text-gray-400 font-mono">${u.password}</td>
+                                        <td class="p-3 uppercase text-xs font-bold ${u.role==='admin'?'text-red-600':'text-green-600'}">${u.role}</td>
+                                        <td class="p-3 text-center">
+                                            <div class="flex flex-row justify-center gap-3">
+                                                <button onclick="showEditUserForm('${u.id}')" class="text-blue-600 font-bold hover:underline uppercase text-[11px]">EDIT</button>
+                                                ${u.id !== '1' ? `<button onclick="deleteUser('${u.id}')" class="text-red-600 font-bold hover:underline uppercase text-[11px]">HAPUS</button>` : '-'}
+                                            </div>
+                                        </td>
+                                    </tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+        }
+
+        function showAddUserForm() {
+            renderUserForm();
+        }
+
+        function showEditUserForm(id) {
+            const user = userDatabase.find(u => u.id === id);
+            if (user) renderUserForm(user);
+        }
+
+        function renderUserForm(editData = null) {
+            const isEdit = !!editData;
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-xl max-md mx-auto border border-blue-200">
+                    <h2 class="text-xl font-bold mb-4 text-blue-600">${isEdit ? 'Edit User' : 'Tambah User Baru'}</h2>
+                    <div class="space-y-4">
+                        <input type="hidden" id="n-id" value="${isEdit ? editData.id : ''}">
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase">Nama Lengkap</label>
+                            <input type="text" id="n-name" value="${isEdit ? editData.name : ''}" placeholder="Nama Lengkap" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase">Username</label>
+                            <input type="text" id="n-user" value="${isEdit ? editData.username : ''}" placeholder="Username" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase">Password</label>
+                            <input type="text" id="n-pass" value="${isEdit ? editData.password : ''}" placeholder="Password" class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase">Role</label>
+                            <select id="n-role" class="w-full p-2 border rounded">
+                                <option value="user" ${isEdit && editData.role === 'user' ? 'selected' : ''}>User</option>
+                                <option value="admin" ${isEdit && editData.role === 'admin' ? 'selected' : ''}>Admin</option>
+                            </select>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="saveUser()" class="bg-blue-600 text-white px-4 py-2 rounded flex-1 font-bold">SIMPAN</button>
+                            <button onclick="renderManajemenUser()" class="bg-gray-400 text-white px-4 py-2 rounded flex-1 font-bold">BATAL</button>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function saveUser() {
+            const id = document.getElementById('n-id').value;
+            const name = document.getElementById('n-name').value;
+            const username = document.getElementById('n-user').value;
+            const password = document.getElementById('n-pass').value;
+            const role = document.getElementById('n-role').value;
+
+            if (id) {
+                const idx = userDatabase.findIndex(u => u.id === id);
+                if (idx !== -1) userDatabase[idx] = { id, name, username, password, role };
+                saveLog(`Mengubah detail user: ${name}`);
+            } else {
+                userDatabase.push({ id: Date.now().toString(), name, username, password, role });
+                saveLog(`Menambah user baru: ${name}`);
+            }
+
+            localStorage.setItem('vmi_users', JSON.stringify(userDatabase));
+            renderManajemenUser();
+        }
+
+        function deleteUser(id) {
+            const u = userDatabase.find(x => x.id === id);
+            if(confirm('Hapus user ini?')) {
+                saveLog(`Menghapus user: ${u ? u.name : 'Unknown'}`);
+                userDatabase = userDatabase.filter(u => u.id !== id);
+                localStorage.setItem('vmi_users', JSON.stringify(userDatabase));
+                renderManajemenUser();
+            }
+        }
+
+        function renderLogActivity() {
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                            <span class="material-symbols-rounded">history</span> Log Activity
+                        </h2>
+                        <button onclick="clearLogs()" class="bg-red-600 text-white px-4 py-2 rounded font-semibold text-xs uppercase">Bersihkan Log</button>
+                    </div>
+                    <div class="table-container max-h-[600px] overflow-y-auto">
+                        <table class="w-full text-xs">
+                            <thead class="sticky top-0 bg-blue-600 text-white">
+                                <tr>
+                                    <th>NO</th>
+                                    <th>NAMA USER</th>
+                                    <th>ROLE</th>
+                                    <th>AKTIVITAS</th>
+                                    <th>TANGGAL</th>
+                                    <th>HARI</th>
+                                    <th>JAM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${activityLogs.length === 0 ? '<tr><td colspan="7" class="p-10 text-center text-gray-400">Belum ada catatan aktivitas</td></tr>' : 
+                                  activityLogs.map((log, idx) => `
+                                    <tr class="border-b hover:bg-blue-50">
+                                        <td class="p-3 text-center font-mono">${idx + 1}</td>
+                                        <td class="p-3 font-bold uppercase text-left">${log.userName}</td>
+                                        <td class="p-3 uppercase text-[10px] font-bold ${log.role==='admin'?'text-red-600':'text-green-600'}">${log.role}</td>
+                                        <td class="p-3 italic text-gray-600 text-left">${log.action}</td>
+                                        <td class="p-3 text-center">${log.date}</td>
+                                        <td class="p-3 text-center">${log.day}</td>
+                                        <td class="p-3 text-center font-mono">${log.time}</td>
+                                    </tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+        }
+
+        function clearLogs() {
+            if(confirm('Hapus semua catatan aktivitas?')) {
+                activityLogs = [];
+                localStorage.setItem('vmi_activity_logs', JSON.stringify(activityLogs));
+                renderLogActivity();
+            }
+        }
+
+        const defaultConfig = {
+            system_title: "BIMBEL GAMBAR VILLA MERAH",
+            primary_color: "#ffffff",
+            secondary_color: "#2563eb",
+            text_color: "#1e293b",
+            background_color: "#eff6ff",
+            accent_color: "#3b82f6"
+        };
+        
+        let currentModule = 'dashboard';
+        let currentSubModule = '';
+        let charts = {};
+        let selectedYear = 'all';
+        
+        const menuItems = [
+            { id: 'dashboard', name: 'Dashboard', icon: 'dashboard' },
+            { id: 'target-peraihan', name: 'Peraihan Siswa & Omset', icon: 'ads_click', submenus: ['Bandung', 'Jakarta Selatan', 'Jakarta Timur'] },
+            { id: 'data-siswa', name: 'Data Siswa', icon: 'group', submenus: ['Bandung', 'Jakarta Selatan', 'Jakarta Timur'] },
+            { id: 'data-leads', name: 'Data Leads', icon: 'description', submenus: ['Bandung', 'Jakarta Selatan', 'Jakarta Timur'] },
+            { id: 'crm-followup', name: 'CRM Follow Up', icon: 'quick_phrases', submenus: ['Bandung', 'Jakarta Selatan', 'Jakarta Timur'] },
+            { id: 'manajemen-user', name: 'Manajemen User', icon: 'manage_accounts', adminOnly: true },
+            { id: 'log-activity', name: 'Log Activity', icon: 'history', adminOnly: true }
+        ];
+
+        // FUNGSI KHUSUS UNTUK DATA LEADS (PROGRAM BARU)
+        function getLeadsProgramsList() {
+            return [
+                'Program SR', 
+                'Program SR Intensif', 
+                'Program SR Anak', 
+                'Program SR SMP', 
+                'Program Arsitektur', 
+                'Program Intensif USM Unpar', 
+                'Program Intensif IUP', 
+                'Program SR Online', 
+                'Program Arsitektur Online'
+            ].sort();
+        }
+
+        function getAllProgramsList() {
+            const listProgramKelas = [
+                'SR Advance', 'SR Platinum', 'SR Gold', 'SR Silver', 'SR Bronze', 'SR Hybrid', 'SR Beasiswa', 
+                'SR Intensif SNBP', 'SR Intensif SNBT', 'SR Intensif SNBP dan SNBT', 'SR Intensif Mandiri', 
+                'SR Intermedite', 'Minat Seni',
+                'Arsitektur Gold', 'Arsitektur Silver', 'Arsitektur Bronze', 'Intensif USM UNPAR', 'Minat Arsitektur',
+                'SR Anak Jangka Panjang', 'SR Anak Jangka Pendek', 'SR SMP Jangka Panjang', 'SR SMP Jangka Pendek',
+                'SR Gold Online JK Panjang', 'SR Gold Online JK Pendek', 
+                'SR Bronze Online', 'SR SMP Online', 'SR Beasiswa Online',
+                'Arsitektur Gold Online JK Panjang', 'Arsitektur Gold Online JK Pendek', 'Arsitektur Silver Online',
+                'SR Intensif Online SNBP', 'SR Intensif Online SNBT', 'SR Intensif Online SNBP dan SNBT', 'SR Intensif Online Mandiri', 
+                'Minat Seni Online JK Panjang', 'Minat Seni Online JK Pendek', 'Minat Arsitektur Online',
+                'Intensif IUP', 'Intensif Online USM UNPAR'
+            ];
+            return [...new Set(listProgramKelas)].sort();
+        }
+        
+        function renderSidebar() {
+            if (!currentUser) return;
+            
+            document.getElementById('top-header').classList.remove('hidden');
+            document.getElementById('sidebar-container').classList.remove('hidden');
+            
+            document.getElementById('header-user-display').textContent = `${currentUser.name}`;
+
+            const nav = document.getElementById('sidebar-nav');
+            let visibleMenu = menuItems.filter(item => {
+                if (item.adminOnly) {
+                    return currentUser.id === '1'; 
+                }
+                return true;
+            });
+
+            nav.innerHTML = visibleMenu.map(item => `
+                <div class="mb-3">
+                    <div class="sidebar-item group p-3 rounded-lg cursor-pointer transition-all duration-300 ${currentModule === item.id ? 'bg-blue-600 shadow-lg scale-105' : 'hover:bg-gray-100'}" 
+                         onclick="navigateTo('${item.id}', '${item.submenus ? item.submenus[0] : ''}')">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-rounded ${currentModule === item.id ? 'text-white active-icon' : 'text-gray-500'}">
+                                ${item.icon}
+                            </span>
+                            <span class="text-sm font-semibold ${currentModule === item.id ? 'text-white' : 'text-gray-700'}">${item.name}</span>
+                        </div>
+                    </div>
+                    ${item.submenus && currentModule === item.id ? `
+                        <div class="ml-8 mt-2 space-y-1 border-l-2 border-gray-300 pl-3">
+                            ${item.submenus.map(sub => `
+                                <div class="sidebar-item group p-2 rounded-md cursor-pointer transition-all duration-200 ${currentSubModule === sub ? 'bg-blue-500 shadow-md' : 'hover:bg-gray-100'}"
+                                     onclick="navigateTo('${item.id}', '${sub}')">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-1.5 h-1.5 rounded-full ${currentSubModule === sub ? 'bg-white' : 'bg-gray-400'}"></div>
+                                        <span class="text-xs font-medium ${currentSubModule === sub ? 'text-white' : 'text-gray-600'}">${sub}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+        
+        function navigateTo(module, submodule = '') {
+            currentModule = module;
+            currentSubModule = submodule;
+            
+            selectedProgramFilter = 'all';
+            selectedStatusFilter = 'all'; 
+            
+            const currentSystemYear = new Date().getFullYear();
+            const defaultStartYear = "2026";
+            
+            if (module === 'crm-followup' || module === 'target-peraihan') {
+                selectedYearFilter = (currentSystemYear < 2026 ? defaultStartYear : currentSystemYear.toString());
+                selectedMonthFilter = (new Date().getMonth() + 1).toString();
+            } else {
+                selectedYearFilter = 'all';
+                selectedMonthFilter = 'all';
+            }
+            
+            renderSidebar();
+            renderContent();
+        }
+        
+        function renderContent() {
+            if (!currentUser) { renderLoginForm(); return; }
+            
+            if ((currentModule === 'manajemen-user' || currentModule === 'log-activity') && currentUser.id !== '1') {
+                navigateTo('dashboard');
+                return;
+            }
+
+            const content = document.getElementById('main-content');
+            
+            switch(currentModule) {
+                case 'dashboard':
+                    renderDashboard();
+                    break;
+                case 'data-siswa':
+                    renderDataSiswa();
+                    break;
+                case 'data-leads':
+                    renderDataLeadsDetail();
+                    break;
+                case 'crm-followup':
+                    renderCRMFollowUp();
+                    break;
+                case 'target-peraihan':
+                    renderTargetPeraihanDetail();
+                    break;
+                case 'manajemen-user':
+                    renderManajemenUser();
+                    break;
+                case 'log-activity':
+                    renderLogActivity();
+                    break;
+                default:
+                    content.innerHTML = '<div class="text-center text-blue-600">Modul dalam pengembangan</div>';
+            }
+        }
+
+        // ==========================================
+        // MODULE: CRM FOLLOW UP (Dashboard Optimized)
+        // ==========================================
+        function renderCRMFollowUp() {
+            const location = currentSubModule || 'Bandung';
+            let allLeadsInWilayah = currentData.filter(d => d.module === 'data-leads' && d.wilayah === location);
+            
+            let leadsDataFiltered = [...allLeadsInWilayah];
+            if (selectedProgramFilter !== 'all') {
+                leadsDataFiltered = leadsDataFiltered.filter(d => d.program === selectedProgramFilter);
+            }
+            if (selectedMonthFilter !== 'all') {
+                leadsDataFiltered = leadsDataFiltered.filter(d => {
+                    const tgl = d.tanggal_input || d.createdAt;
+                    return (new Date(tgl).getMonth() + 1) == selectedMonthFilter;
+                });
+            }
+            if (selectedYearFilter !== 'all') {
+                leadsDataFiltered = leadsDataFiltered.filter(d => {
+                    const tgl = d.tanggal_input || d.createdAt;
+                    return new Date(tgl).getFullYear() == selectedYearFilter;
+                });
+            }
+
+            const totalLeads = leadsDataFiltered.length;
+            const totalClosing = leadsDataFiltered.filter(l => l.status_crm === 'Deal' || l.is_closing === true).length;
+            const conversionRate = totalLeads > 0 ? ((totalClosing / totalLeads) * 100).toFixed(1) : 0;
+            
+            let colorClass = "text-rose-600"; 
+            if (conversionRate >= 20) colorClass = "text-emerald-600"; 
+            else if (conversionRate >= 10) colorClass = "text-amber-500";
+
+            const stats = getCRMStatistics(leadsDataFiltered);
+            const isAdmin = currentUser.role === 'admin';
+            const allPrograms = getLeadsProgramsList();
+            const content = document.getElementById('main-content');
+
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200 font-['Poppins']">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 border-b pb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                                <span class="material-symbols-rounded">quick_phrases</span> CRM Follow Up - ${location}
+                            </h2>
+                            <p class="text-sm text-gray-500 mt-1">Analisis efektivitas konversi leads</p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <select id="program-filter-crm" onchange="applyCRMFilter()" class="px-3 py-2 rounded bg-white border border-blue-300 text-xs font-normal uppercase shadow-sm outline-none focus:ring-2 focus:ring-blue-400">
+                                <option value="all" ${selectedProgramFilter === 'all' ? 'selected' : ''}>Semua Program</option>
+                                ${allPrograms.map(prog => `<option value="${prog}" ${selectedProgramFilter === prog ? 'selected' : ''}>${prog}</option>`).join('')}
+                            </select>
+                            <select id="month-filter-crm" onchange="applyCRMFilter()" class="px-3 py-2 rounded bg-white border border-blue-300 text-xs font-normal uppercase shadow-sm outline-none focus:ring-2 focus:ring-blue-400">
+                                ${daftarNamaBulan.slice(1).map((m, idx) => `<option value="${idx+1}" ${selectedMonthFilter == idx+1 ? 'selected' : ''}>${m}</option>`).join('')}
+                            </select>
+                            <select id="year-filter-crm" onchange="applyCRMFilter()" class="px-3 py-2 rounded bg-white border border-blue-300 text-xs font-normal uppercase shadow-sm outline-none focus:ring-2 focus:ring-blue-400">
+                                <option value="all" ${selectedYearFilter === 'all' ? 'selected' : ''}>Semua Tahun</option>
+                                ${generateYearOptionsForFilter(selectedYearFilter)}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-white p-5 rounded-2xl border border-blue-100 shadow-md">
+                            <h3 class="text-xs font-black text-blue-700 mb-6 uppercase text-center tracking-widest">Statistik Status Leads</h3>
+                            <div class="h-64"><canvas id="chart-crm-funnel"></canvas></div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-blue-100 shadow-md flex flex-col items-center justify-center">
+                            <h3 class="text-xs font-black text-blue-700 mb-6 uppercase text-center tracking-widest">Efektivitas Closing (Conversion Rate)</h3>
+                            <div class="relative flex items-center justify-center w-full min-h-[190px]">
+                                <svg class="w-48 h-48 transform -rotate-90">
+                                    <circle class="text-gray-100" stroke-width="12" stroke="currentColor" fill="transparent" r="70" cx="96" cy="96" />
+                                    <circle class="${conversionRate >= 20 ? 'text-emerald-500' : (conversionRate >= 10 ? 'text-amber-500' : 'text-rose-500')}" 
+                                        stroke-width="12" 
+                                        stroke-dasharray="${(conversionRate / 100) * 440}, 440" 
+                                        stroke-linecap="round" 
+                                        stroke="currentColor" 
+                                        fill="transparent" 
+                                        r="70" cx="96" cy="96" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                    <span class="text-4xl font-black ${colorClass} tracking-tighter leading-none">${conversionRate}%</span>
+                                    <p class="text-[9px] text-gray-400 uppercase font-black mt-1">Siswa Closing</p>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 w-full mt-4">
+                                <div class="bg-blue-50 p-4 rounded-2xl text-center border border-blue-100">
+                                    <span class="text-[10px] font-black text-blue-600 uppercase block mb-1">Total Leads</span>
+                                    <span class="text-2xl font-black text-blue-900">${totalLeads}</span>
+                                </div>
+                                <div class="bg-emerald-50 p-4 rounded-2xl text-center border border-emerald-100">
+                                    <span class="text-[10px] font-black text-emerald-600 uppercase block mb-1">Closing</span>
+                                    <span class="text-2xl font-black text-emerald-900">${totalClosing}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 mb-8">
+                        <div class="bg-white p-5 rounded-2xl border border-blue-100 shadow-md">
+                            <h3 class="text-xs font-black text-blue-700 mb-6 uppercase text-center tracking-widest">Grafik peraihan siswa dan leads Harian</h3>
+                            <div class="h-64"><canvas id="chart-crm-daily"></canvas></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                        <div class="bg-white p-5 rounded-2xl border border-blue-100 shadow-md">
+                            <h3 class="text-xs font-black text-blue-700 mb-6 uppercase text-center tracking-widest">5 Program Closing Terbanyak</h3>
+                            <div class="h-64"><canvas id="chart-crm-program"></canvas></div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-blue-100 shadow-md">
+                            <h3 class="text-xs font-black text-blue-700 mb-6 uppercase text-center tracking-widest">5 Wilayah Leads Terbanyak</h3>
+                            <div class="h-64"><canvas id="chart-crm-kota"></canvas></div>
+                        </div>
+                         <div class="bg-white p-5 rounded-2xl border border-blue-100 shadow-md">
+                            <h3 class="text-xs font-black text-blue-700 mb-6 uppercase text-center tracking-widest">5 Sumber Info Terbanyak</h3>
+                            <div class="h-64"><canvas id="chart-crm-info"></canvas></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden">
+                        <div class="bg-blue-600 px-6 py-4 flex justify-between items-center">
+                            <h3 class="text-white font-bold uppercase text-xs tracking-widest">Database Leads Calon Siswa</h3>
+                            <span class="bg-blue-800 text-white px-4 py-1 rounded-full text-[10px] font-black">${leadsDataFiltered.length} TOTAL DATA</span>
+                        </div>
+                        <div class="table-container" style="max-height: 500px; overflow-y: auto;">
+                            <table class="w-full text-sm">
+                                <thead class="sticky top-0 bg-gray-50 z-10 border-b border-gray-200">
+                                    <tr class="text-slate-600">
+                                        <th>NO</th>
+                                        <th>NAMA SISWA</th>
+                                        <th>ASAL SEKOLAH</th>
+                                        <th>KELAS</th>
+                                        <th>PROGRAM MINAT</th>
+                                        <th>STATUS</th>
+                                        <th>TANGGAL FOLLOW UP</th>
+                                        <th>TANGGAL DAFTAR</th>
+                                        <th>CATATAN</th>
+                                        ${isAdmin ? '<th class="col-aksi">AKSI</th>' : ''}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${leadsDataFiltered.length === 0 ? `<tr><td colspan="${isAdmin ? '10' : '9'}" class="p-10 text-center text-gray-400">Tidak ada data untuk ditampilkan.</td></tr>` : 
+                                      leadsDataFiltered.map((lead, idx) => {
+                                        let statusTampil = lead.status_crm === 'Deal' ? 'Closing' : (lead.status_crm || 'Pending');
+                                        const programTampil = lead.status_crm === 'Deal' ? (lead.program_pendidikan || lead.program) : lead.program;
+                                        return `
+                                        <tr class="border-b border-slate-100 hover:bg-blue-50 transition-all">
+                                            <td class="p-3 text-center font-mono text-[10px]">${idx + 1}</td>
+                                            <td class="p-3 font-black uppercase text-slate-800 text-xs">${lead.nama_siswa}</td>
+                                            <td class="p-3 text-[10px] uppercase text-slate-600">${lead.asal_sekolah || '-'}</td>
+                                            <td class="p-3 text-center text-[10px] uppercase text-slate-600">${lead.kelas || '-'}</td>
+                                            <td class="p-3 text-[10px] font-bold text-blue-700 uppercase">${programTampil || '-'}</td>
+                                            <td class="p-3 text-center">
+                                                <span class="px-3 py-1 rounded-lg text-[9px] font-black uppercase shadow-sm
+                                                    ${statusTampil === 'Closing' ? 'bg-emerald-500 text-white' : 
+                                                      statusTampil === 'Hot' ? 'bg-rose-500 text-white' : 
+                                                      statusTampil === 'Cold' ? 'bg-slate-400 text-white' :
+                                                      'bg-sky-500 text-white'}">
+                                                    ${statusTampil}
+                                                </span>
+                                            </td>
+                                            <td class="p-3 text-center font-mono text-[10px] font-black ${lead.tgl_followup && isOverdue(lead.tgl_followup) ? 'text-rose-600 bg-rose-50 rounded-lg' : 'text-slate-600'}">
+                                                ${lead.tgl_followup ? formatTanggal(lead.tgl_followup) : '-'}
+                                            </td>
+                                            <td class="p-3 text-center font-mono text-[10px] text-slate-600">
+                                                ${lead.status_crm === 'Deal' ? formatTanggal(lead.tanggal_closing || lead.tanggal_input || lead.createdAt) : '-'}
+                                            </td>
+                                            <td class="p-3 text-[10px] italic text-slate-500 allow-wrap leading-relaxed">${lead.catatan_crm || '-'}</td>
+                                            ${isAdmin ? `
+                                            <td class="p-3 text-center">
+                                                <div class="flex flex-row justify-center gap-3">
+                                                    <button onclick="showUpdateCRMForm('${lead.__backendId}')" class="text-blue-600 font-bold hover:underline uppercase text-[11px]">EDIT</button>
+                                                    <button onclick="deleteData('${lead.__backendId}')" class="text-red-600 font-bold hover:underline uppercase text-[11px]">HAPUS</button>
+                                                </div>
+                                            </td>` : ''}
+                                        </tr>`}).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>`;
+            
+            setTimeout(() => renderCRMCharts(stats), 100);
+        }
+
+        function getCRMStatistics(data) {
+            const tahun = selectedYearFilter !== 'all' ? parseInt(selectedYearFilter) : new Date().getFullYear();
+            const bulan = selectedMonthFilter !== 'all' ? parseInt(selectedMonthFilter) : new Date().getMonth() + 1;
+            const daysInMonth = new Date(tahun, bulan, 0).getDate();
+
+            const stats = {
+                funnel: { labels: ['Pending', 'Warm', 'Hot', 'Closing', 'Cold'], data: [0, 0, 0, 0, 0] },
+                program: { labels: [], data: [] },
+                cities: { labels: [], data: [] },
+                sources: { labels: [], data: [] },
+                daily: { labels: Array.from({length: daysInMonth}, (_, i) => (i + 1).toString()), leads: new Array(daysInMonth).fill(0), closing: new Array(daysInMonth).fill(0) }
+            };
+
+            const progCounts = {};
+            const cityCounts = {};
+            const infoCounts = {};
+
+            data.forEach(item => {
+                let s = item.status_crm === 'Deal' ? 'Closing' : (item.status_crm || 'Pending');
+                const city = (item.asal_kota || 'LAINNYA').toUpperCase();
+
+                const fIdx = stats.funnel.labels.indexOf(s);
+                if (fIdx !== -1) stats.funnel.data[fIdx]++;
+
+                if (s === 'Closing') {
+                    const p = (item.program_pendidikan || item.program || 'Unknown').toUpperCase();
+                    progCounts[p] = (progCounts[p] || 0) + 1;
+                }
+
+                cityCounts[city] = (cityCounts[city] || 0) + 1;
+
+                if (Array.isArray(item.info_villa_merah_dari)) {
+                    item.info_villa_merah_dari.forEach(info => {
+                        const infoKey = info.toUpperCase();
+                        infoCounts[infoKey] = (infoCounts[infoKey] || 0) + 1;
+                    });
+                }
+
+                const tglInputStr = item.tanggal_input || item.createdAt;
+                if(tglInputStr) {
+                    const dIn = new Date(tglInputStr);
+                    const isYearMatch = selectedYearFilter === 'all' || dIn.getFullYear() == selectedYearFilter;
+                    const isMonthMatch = selectedMonthFilter === 'all' || (dIn.getMonth() + 1) == selectedMonthFilter;
+                    
+                    if(isYearMatch && isMonthMatch) {
+                        const dayIn = dIn.getDate();
+                        if(dayIn >= 1 && dayIn <= daysInMonth) {
+                            stats.daily.leads[dayIn-1]++; 
+                        }
+                    }
+                }
+
+                if(item.status_crm === 'Deal' || item.is_closing === true) {
+                    const tglClosingStr = item.tanggal_closing || item.tanggal_input || item.createdAt;
+                    const dCl = new Date(tglClosingStr);
+                    const isYearMatchCl = selectedYearFilter === 'all' || dCl.getFullYear() == selectedYearFilter;
+                    const isMonthMatchCl = selectedMonthFilter === 'all' || (dCl.getMonth() + 1) == selectedMonthFilter;
+
+                    if(isYearMatchCl && isMonthMatchCl) {
+                        const dayCl = dCl.getDate();
+                        if(dayCl >= 1 && dayCl <= daysInMonth) {
+                            stats.daily.closing[dayCl-1]++;
+                        }
+                    }
+                }
+            });
+
+            stats.cities.labels = Object.entries(cityCounts).sort((a,b) => b[1]-a[1]).slice(0,5).map(x => x[0]);
+            stats.cities.data = Object.entries(cityCounts).sort((a,b) => b[1]-a[1]).slice(0,5).map(x => x[1]);
+
+            stats.sources.labels = Object.entries(infoCounts).sort((a,b) => b[1]-a[1]).slice(0,5).map(x => x[0]);
+            stats.sources.data = Object.entries(infoCounts).sort((a,b) => b[1]-a[1]).slice(0,5).map(x => x[1]);
+
+            stats.program.labels = Object.entries(progCounts).sort((a,b) => b[1] - a[1]).slice(0, 5).map(x => x[0]);
+            stats.program.data = Object.entries(progCounts).sort((a,b) => b[1] - a[1]).slice(0, 5).map(x => x[1]);
+
+            return stats;
+        }
+
+        function renderCRMCharts(stats) {
+            const fontConfig = { family: 'Poppins', size: 10, weight: 'bold' };
+
+            new Chart(document.getElementById('chart-crm-kota'), {
+                type: 'doughnut',
+                data: {
+                    labels: stats.cities.labels,
+                    datasets: [{
+                        data: stats.cities.data,
+                        backgroundColor: ['#475569', '#0ea5e9', '#6366f1', '#14b8a6', '#f43f5e']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 9, family: 'Poppins' } } } },
+                    cutout: '40%'
+                }
+            });
+
+            new Chart(document.getElementById('chart-crm-program'), {
+                type: 'doughnut',
+                data: {
+                    labels: stats.program.labels,
+                    datasets: [{
+                        data: stats.program.data,
+                        backgroundColor: ['#1d4ed8', '#059669', '#d97706', '#dc2626', '#7c3aed']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { position: 'bottom', labels: { font: { size: 9, family: 'Poppins' } } } 
+                    },
+                    cutout: '40%'
+                }
+            });
+
+            new Chart(document.getElementById('chart-crm-funnel'), {
+                type: 'bar',
+                data: {
+                    labels: stats.funnel.labels,
+                    datasets: [{ 
+                        data: stats.funnel.data, 
+                        backgroundColor: ['#38bdf8', '#fbbf24', '#f43f5e', '#10b981', '#94a3b8'],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { 
+                        x: { ticks: { font: fontConfig } }, 
+                        y: { beginAtZero: true, ticks: { font: fontConfig, stepSize: 1 } } 
+                    }
+                }
+            });
+
+            new Chart(document.getElementById('chart-crm-info'), {
+                type: 'doughnut',
+                data: {
+                    labels: stats.sources.labels,
+                    datasets: [{
+                        data: stats.sources.data,
+                        backgroundColor: ['#8b5cf6', '#06b6d4', '#fb7185', '#94a3b8', '#f59e0b']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 9, family: 'Poppins' } } } },
+                    cutout: '40%'
+                }
+            });
+
+            new Chart(document.getElementById('chart-crm-daily'), {
+                type: 'bar',
+                data: {
+                    labels: stats.daily.labels,
+                    datasets: [
+                        {
+                            label: 'Leads Masuk',
+                            data: stats.daily.leads,
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Closing',
+                            data: stats.daily.closing,
+                            backgroundColor: '#10b981',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { font: { size: 10, family: 'Poppins', weight: 'bold' } } } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 9 } } },
+                        x: { ticks: { font: { size: 9 } } }
+                    }
+                }
+            });
+        }
+
+        function isOverdue(dateStr) {
+            if(!dateStr) return false;
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            return new Date(dateStr) < today;
+        }
+
+        function applyCRMFilter() {
+            selectedProgramFilter = document.getElementById('program-filter-crm').value;
+            selectedMonthFilter = document.getElementById('month-filter-crm').value;
+            selectedYearFilter = document.getElementById('year-filter-crm').value;
+            renderCRMFollowUp();
+        }
+
+        function showUpdateCRMForm(backendId) {
+            const lead = currentData.find(d => d.__backendId === backendId);
+            if (!lead) return;
+            
+            const listProgramSiswa = getAllProgramsList();
+
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-xl max-md mx-auto border border-blue-200 font-['Poppins']">
+                    <h2 class="text-xl font-bold mb-6 text-blue-600 flex items-center gap-2">
+                        <span class="material-symbols-rounded">edit_note</span> Update Follow Up
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="text-left">
+                            <label class="text-xs font-bold text-gray-500 uppercase">Nama Siswa</label>
+                            <p class="font-bold text-gray-800 uppercase text-sm">${lead.nama_siswa}</p>
+                        </div>
+                        <div class="text-left">
+                            <label class="text-xs font-bold text-gray-500 uppercase">Status Prospek</label>
+                            <select id="crm-status" onchange="toggleBiayaInput()" class="w-full p-2 border rounded border-blue-300 outline-none focus:ring-2 focus:ring-blue-400">
+                                <option value="Pending" ${lead.status_crm === 'Pending' ? 'selected' : ''}>Pending (Belum Respon)</option>
+                                <option value="Warm" ${lead.status_crm === 'Warm' ? 'selected' : ''}>Warm (Tanya-tanya)</option>
+                                <option value="Hot" ${lead.status_crm === 'Hot' ? 'selected' : ''}>Hot (Sangat Tertarik)</option>
+                                <option value="Deal" ${lead.status_crm === 'Deal' ? 'selected' : ''}>Closing (Daftar)</option>
+                                <option value="Cold" ${lead.status_crm === 'Cold' ? 'selected' : ''}>Cold (Batal/Tidak Minat)</option>
+                            </select>
+                        </div>
+
+                        <div id="section-biaya-deal" class="hidden space-y-4 p-3 bg-green-50 rounded-lg border border-green-200">
+                            <div class="text-left">
+                                <label class="text-xs font-bold text-green-700 uppercase">Program Pendidikan (Wajib)</label>
+                                <select id="crm-program-siswa" class="w-full p-2 border border-green-300 rounded outline-none focus:ring-2 focus:ring-blue-400">
+                                    <option value="">Pilih Program Kelas</option>
+                                    ${listProgramSiswa.map(prog => `<option value="${prog}">${prog}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="text-left">
+                                <label class="text-xs font-bold text-green-700 uppercase">Total Biaya Pendidikan</label>
+                                <input type="text" id="crm-biaya" placeholder="Contoh: 15.000.000" class="w-full p-2 border border-green-300 rounded outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div class="text-left">
+                                <label class="text-xs font-bold text-green-700 uppercase">Jumlah Bayar (DP/Lunas)</label>
+                                <input type="text" id="crm-bayar" placeholder="Contoh: 5.000.000" class="w-full p-2 border border-green-300 rounded outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                        </div>
+
+                        <div id="section-catatan-standard" class="space-y-4">
+                            <div class="text-left">
+                                <label id="lbl-tgl-crm" class="text-xs font-bold text-gray-500 uppercase">${lead.status_crm === 'Deal' ? 'TANGGAL DAFTAR' : 'TANGGAL FOLLOW UP'}</label>
+                                <input type="date" id="crm-date" value="${lead.tgl_followup || lead.tanggal_closing || ''}" class="w-full p-2 border rounded border-blue-300 outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div class="text-left">
+                                <label class="text-xs font-bold text-gray-500 uppercase">Catatan Interaksi</label>
+                                <textarea id="crm-catatan" class="w-full p-2 border rounded border-blue-300 h-24 outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-gray-300" placeholder="Hasil telepon, chat, atau alasan batal...">${lead.catatan_crm || ''}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2 pt-4">
+                            <button onclick="saveCRMProgress('${lead.__backendId}')" class="bg-blue-600 text-white px-4 py-2 rounded flex-1 font-bold shadow-md hover:bg-blue-700 transition">SIMPAN</button>
+                            <button onclick="renderCRMFollowUp()" class="bg-gray-400 text-white px-4 py-2 rounded flex-1 font-bold shadow-md hover:bg-gray-500 transition">BATAL</button>
+                        </div>
+                    </div>
+                </div>`;
+            
+            formatNumberInput('crm-biaya');
+            formatNumberInput('crm-bayar');
+            toggleBiayaInput();
+        }
+
+        function toggleBiayaInput() {
+            const status = document.getElementById('crm-status').value;
+            const section = document.getElementById('section-biaya-deal');
+            const labelTgl = document.getElementById('lbl-tgl-crm');
+            
+            if (status === 'Deal') {
+                section.classList.remove('hidden');
+                if (labelTgl) labelTgl.textContent = 'TANGGAL DAFTAR';
+            } else {
+                section.classList.add('hidden');
+                if (labelTgl) labelTgl.textContent = 'TANGGAL FOLLOW UP';
+            }
+        }
+
+        async function saveCRMProgress(backendId) {
+            const status = document.getElementById('crm-status').value;
+            const tglAction = document.getElementById('crm-date').value; 
+            const catatan = document.getElementById('crm-catatan').value;
+            
+            const biayaRaw = document.getElementById('crm-biaya') ? (document.getElementById('crm-biaya').value.replace(/\./g, '') || "0") : "0";
+            const bayarRaw = document.getElementById('crm-bayar') ? (document.getElementById('crm-bayar').value.replace(/\./g, '') || "0") : "0";
+            const programDeal = document.getElementById('crm-program-siswa') ? document.getElementById('crm-program-siswa').value : '';
+            const sisaHitung = parseInt(biayaRaw) - parseInt(bayarRaw);
+
+            if (status === 'Deal' && !programDeal) {
+                alert('Silakan pilih Program Pendidikan terlebih dahulu!');
+                return;
+            }
+
+            const leadData = currentData.find(d => d.__backendId === backendId);
+
+            if (status === 'Deal') {
+                await window.dataSdk.update(backendId, {
+                    status_crm: 'Deal',
+                    tanggal_closing: tglAction, 
+                    catatan_crm: catatan,
+                    program_pendidikan: programDeal,
+                    is_closing: true 
+                });
+
+                const isDouble = currentData.some(d => d.module === 'data-siswa' && d.nama.toUpperCase() === leadData.nama_siswa.toUpperCase());
+                
+                if (!isDouble) {
+                    const payloadSiswa = {
+                        module: 'data-siswa',
+                        location: leadData.wilayah,
+                        nama: leadData.nama_siswa,
+                        ttl: leadData.ttl || '-',
+                        no_hp_siswa: leadData.no_hp,
+                        asal_sekolah: leadData.asal_sekolah,
+                        kelas: leadData.kelas || '-',
+                        asal_kota: leadData.asal_kota || '-',
+                        program: programDeal, 
+                        nama_medsos: leadData.nama_medsos || '-',
+                        platform_medsos: leadData.platform_medsos || [],
+                        info_villa_merah_dari: leadData.info_villa_merah_dari || [],
+                        alamat_siswa: leadData.alamat || '-',
+                        nama_ortu: leadData.nama_ortu || '-', 
+                        no_tlp_ortu: leadData.no_tlp_ortu || '-', 
+                        biaya_pendidikan: biayaRaw,
+                        sisa_angsuran: sisaHitung.toString(),
+                        createdAt: tglAction ? new Date(tglAction).toISOString() : new Date().toISOString()
+                    };
+                    await window.dataSdk.create(payloadSiswa);
+                }
+                alert('Status CLOSING Berhasil!');
+            } else {
+                await window.dataSdk.update(backendId, {
+                    status_crm: status,
+                    tgl_followup: tglAction,
+                    catatan_crm: catatan,
+                    is_closing: false
+                });
+                alert('Progres Follow Up diperbarui!');
+            }
+            renderCRMFollowUp();
+        }
+        
+        function renderDashboard() {
+            let dataSiswa = currentData.filter(d => d.module === 'data-siswa');
+            
+            if (selectedYear !== 'all') {
+                dataSiswa = dataSiswa.filter(siswa => {
+                    const createdDate = new Date(siswa.createdAt);
+                    return createdDate.getFullYear() == selectedYear;
+                });
+            }
+            
+            const olapData = generateOLAPFromData(dataSiswa);
+
+            let targetMarketData = currentData.filter(d => d.module === 'target-market');
+            if (selectedYear !== 'all') {
+                targetMarketData = targetMarketData.filter(d => d.tahun == selectedYear);
+            }
+            const totalTargetOmset = targetMarketData.reduce((acc, curr) => acc + (parseFloat(curr.target_omset) || 0), 0);
+            
+            const omsetTercapai = olapData.summary.totalOmsetRaw;
+            const omsetBelumTercapai = totalTargetOmset - omsetTercapai;
+            
+            const persentasePencapaian = totalTargetOmset > 0 
+                ? ((omsetTercapai / totalTargetOmset) * 100).toFixed(1) 
+                : 0;
+            
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="mb-6 flex justify-between items-center font-['Poppins']">
+                    <div class="flex items-center gap-3">
+                        <h2 class="text-3xl font-extrabold text-blue-600 tracking-tight flex items-center gap-2">
+                           <span class="material-symbols-rounded" style="font-size:32px">dashboard</span> Statistik Peraihan Siswa
+                        </h2>
+                    </div>
+                    <select id="filter-tahun-dashboard" onchange="filterDashboardByYear()" 
+                            class="px-4 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <option value="all" ${selectedYear === 'all' ? 'selected' : ''}>Semua Tahun</option>
+                        ${generateYearOptions()}
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-6 mb-8 font-['Poppins']">
+                    <div class="lg:col-span-2 bg-blue-900 rounded-2xl p-6 shadow-xl text-center">
+                        <h3 class="text-blue-100 text-xs font-black mb-2 uppercase tracking-widest">Target Omset</h3>
+                        <div class="text-3xl font-bold text-white break-words" id="target-omset-card">${formatRupiahFull(totalTargetOmset)}</div>
+                        <div class="text-[10px] text-blue-300 mt-2 font-bold uppercase">Estimasi Target Tahunan</div>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-emerald-600 rounded-2xl p-6 shadow-xl text-center">
+                        <h3 class="text-emerald-50 text-xs font-black mb-2 uppercase tracking-widest">Omset Tercapai</h3>
+                        <div class="text-3xl font-bold text-white break-words" id="total-omset-card">${formatRupiahFull(omsetTercapai)}</div>
+                        <div class="text-[10px] text-emerald-100 mt-2 font-bold uppercase">Progres: ${persentasePencapaian}% Tercapai</div>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-amber-600 rounded-2xl p-6 shadow-xl text-center">
+                        <h3 class="text-amber-50 text-xs font-black mb-2 uppercase tracking-widest">Omset Belum Tercapai</h3>
+                        <div class="text-3xl font-bold text-white break-words" id="omset-gap-card">${formatRupiahFull(omsetBelumTercapai)}</div>
+                        <div class="text-[10px] text-amber-100 mt-2 font-bold uppercase">Kekurangan: ${Math.max(0, (100 - persentasePencapaian)).toFixed(1)}%</div>
+                    </div>
+                    
+                    <div class="lg:col-span-1 bg-sky-500 rounded-2xl p-6 shadow-xl text-center flex flex-col justify-center">
+                        <h3 class="text-sky-50 text-xs font-black mb-2 uppercase tracking-widest">Total Siswa</h3>
+                        <div class="text-4xl font-bold text-white break-words" id="total-siswa-card">${olapData.summary.totalSiswa}</div>
+                        <div class="text-[10px] text-sky-100 mt-2 font-bold uppercase">Siswa Tercapai</div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 2xl:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200">
+                        <h3 class="text-blue-600 text-lg font-semibold mb-4">Perolehan Omset Per Bulan</h3>
+                        <div class="chart-container">
+                            <canvas id="chart-omset"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200">
+                        <h3 class="text-blue-600 text-lg font-semibold mb-4">Perolehan Siswa Per Bulan</h3>
+                        <div class="chart-container">
+                            <canvas id="chart-siswa"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200 font-['Poppins']">
+                        <h3 class="text-blue-600 text-xl font-bold mb-4 text-center">Statistik Sekolah</h3>
+                        <div class="h-[300px]">
+                            <canvas id="chart-sekolah-dashboard"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200 font-['Poppins']">
+                        <h3 class="text-blue-600 text-xl font-bold mb-4 text-center">Statistik Wilayah</h3>
+                        <div class="h-[300px]">
+                            <canvas id="chart-kota-dashboard"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200 font-['Poppins']">
+                        <h3 class="text-blue-600 text-xl font-bold mb-4 text-center">Statistik Informasi</h3>
+                        <div class="h-[300px]">
+                            <canvas id="chart-info-dashboard"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                renderChartSiswa(olapData, dataSiswa); 
+                renderChartOmset(olapData, dataSiswa); 
+                renderChartKota(olapData, 'chart-kota-dashboard');
+                renderChartSekolah(olapData, 'chart-sekolah-dashboard');
+                renderChartInfo(olapData, 'chart-info-dashboard');
+            }, 100);
+        }
+        
+        function formatRupiah(value) {
+            if (!value) return 'Rp 0';
+            const num = parseInt(value);
+            return `Rp ${num.toLocaleString('id-ID')}`;
+        }
+
+        function formatRupiahFull(value) {
+            if (!value) return 'Rp 0';
+            const num = parseFloat(value);
+            return `Rp ${num.toLocaleString('id-ID')}`;
+        }
+        
+        function generateYearOptions() {
+            const startYear = 2026;
+            const endYear = 2035; 
+            let options = '';
+            
+            for (let year = startYear; year <= endYear; year++) {
+                options += `<option value="${year}" ${selectedYear == year ? 'selected' : ''}>${year}</option>`;
+            }
+            
+            return options;
+        }
+        
+        function filterDashboardByYear() {
+            selectedYear = document.getElementById('filter-tahun-dashboard').value;
+            renderContent();
+        }
+        
+        function renderChartSiswa(olapData, filteredDataSiswa) {
+            const ctx = document.getElementById('chart-siswa');
+            if (!ctx) return;
+            
+            if (charts.siswa) charts.siswa.destroy();
+            
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            const labels = monthNames;
+            
+            const dataSiswaArr = new Array(12).fill(0);
+            
+            filteredDataSiswa.forEach(siswa => {
+                const createdDate = new Date(siswa.createdAt);
+                const monthIndex = createdDate.getMonth(); 
+                dataSiswaArr[monthIndex] += 1;
+            });
+            
+            charts.siswa = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Siswa Baru',
+                        data: dataSiswaArr,
+                        backgroundColor: 'rgba(56, 189, 248, 0.7)', 
+                        borderColor: '#38bdf8',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#4b5563' }, grid: { color: 'rgba(37, 99, 235, 0.1)' } },
+                        x: { 
+                            ticks: { 
+                                color: '#4b5563',
+                                maxRotation: 0,
+                                minRotation: 0
+                            }, 
+                            grid: { color: 'rgba(37, 99, 235, 0.1)' } 
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderChartOmset(olapData, filteredDataSiswa) {
+            const ctx = document.getElementById('chart-omset');
+            if (!ctx) return;
+            
+            if (charts.omset) charts.omset.destroy();
+            
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            const labels = monthNames;
+            
+            const dataOmsetArr = new Array(12).fill(0);
+            
+            filteredDataSiswa.forEach(siswa => {
+                const createdDate = new Date(siswa.createdAt);
+                const monthIndex = createdDate.getMonth(); 
+                const biaya = parseFloat(siswa.biaya_pendidikan) || 0;
+                const sisa = parseFloat(siswa.sisa_angsuran) || 0;
+                dataOmsetArr[monthIndex] += (biaya - sisa);
+            });
+            
+            charts.omset = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Omset',
+                        data: dataOmsetArr,
+                        borderColor: '#34d399', 
+                        backgroundColor: 'rgba(52, 211, 153, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#34d399'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Omset: ' + formatRupiahFull(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            ticks: { 
+                                color: '#4b5563',
+                                callback: function(value) {
+                                    return value.toLocaleString('id-ID');
+                                }
+                            }, 
+                            grid: { color: 'rgba(37, 99, 235, 0.1)' } 
+                        },
+                        x: { 
+                            ticks: { 
+                                color: '#4b5563',
+                                maxRotation: 0,
+                                minRotation: 0
+                            }, 
+                            grid: { color: 'rgba(37, 99, 235, 0.1)' } 
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateOLAPFromData(dataSiswa) {
+            if (dataSiswa.length === 0) {
+                return {
+                    monthly: [],
+                    totals: { siswaBaru: 0, totalSiswa: 0, omset: 0, bandung: 0, jaksel: 0, jaktim: 0 },
+                    locations: {
+                        bandung: { total: 0, omset: '0', pending: '0', topCity: '-', topSchool: '-' },
+                        jaksel: { total: 0, omset: '0', pending: '0', topCity: '-', topSchool: '-' },
+                        jaktim: { total: 0, omset: '0', pending: '0', topCity: '-', topSchool: '-' }
+                    },
+                    summary: {
+                        totalSiswa: 0,
+                        siswaBulanIni: 0,
+                        totalOmsetRaw: 0,
+                        omsetPendingRaw: 0
+                    },
+                    cities: { labels: [], data: [] },
+                    schools: { labels: [], data: [] },
+                    infoSources: { labels: [], data: [] }
+                };
+            }
+            
+            const monthlyMap = {};
+            const cityCounts = {};
+            const schoolCounts = {};
+            const infoCounts = {};
+            const locCityCounts = { bandung: {}, jaksel: {}, jaktim: {} };
+            const locSchoolCounts = { bandung: {}, jaksel: {}, jaktim: {} };
+            let totalSiswaCount = 0;
+            let totalOmsetTerealisasi = 0;
+            let totalPending = 0;
+            let siswaBulanIni = 0;
+            
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+
+            const bulanFilter = selectedMonthFilter;
+            const tahunFilter = selectedYearFilter;
+            
+            const locationCounts = { bandung: 0, jaksel: 0, jaktim: 0 };
+            const locationOmsetReal = { bandung: 0, jaksel: 0, jaktim: 0 };
+            const locationPendingReal = { bandung: 0, jaksel: 0, jaktim: 0 };
+            
+            dataSiswa.forEach(siswa => {
+                const createdDate = new Date(siswa.createdAt);
+                const month = createdDate.getMonth() + 1;
+                const year = createdDate.getFullYear();
+                
+                if (bulanFilter !== 'all' && parseInt(month) !== parseInt(bulanFilter)) return;
+                if (tahunFilter !== 'all' && parseInt(year) !== parseInt(tahunFilter)) return;
+
+                const key = `${month}-${year}`; 
+                
+                const biaya = parseFloat(siswa.biaya_pendidikan) || 0;
+                const sisa = parseFloat(siswa.sisa_angsuran) || 0;
+                const omsetMasuk = biaya - sisa;
+                const kotaSiswa = (siswa.asal_kota || 'Lainnya').toUpperCase();
+                const sekolahSiswa = (siswa.asal_sekolah || 'Lainnya').toUpperCase();
+                
+                if (!monthlyMap[key]) {
+                    monthlyMap[key] = {
+                        periode: `${daftarNamaBulan[month]} ${year}`,
+                        periode_raw: key,
+                        siswaBaru: 0,
+                        omset_raw: 0,
+                        bandung: 0,
+                        jaksel: 0,
+                        jaktim: 0,
+                        year: year,
+                        month: month
+                    };
+                }
+                
+                monthlyMap[key].siswaBaru += 1;
+                monthlyMap[key].omset_raw += omsetMasuk; 
+                
+                if (siswa.location === 'Bandung') {
+                    monthlyMap[key].bandung += 1;
+                    locationCounts.bandung += 1;
+                    locationOmsetReal.bandung += omsetMasuk;
+                    locationPendingReal.bandung += sisa;
+                    locCityCounts.bandung[kotaSiswa] = (locCityCounts.bandung[kotaSiswa] || 0) + 1;
+                    locSchoolCounts.bandung[sekolahSiswa] = (locSchoolCounts.bandung[sekolahSiswa] || 0) + 1;
+                } else if (siswa.location === 'Jakarta Selatan') {
+                    monthlyMap[key].jaksel += 1;
+                    locationCounts.jaksel += 1;
+                    locationOmsetReal.jaksel += omsetMasuk;
+                    locationPendingReal.jaksel += sisa;
+                    locCityCounts.jaksel[kotaSiswa] = (locCityCounts.jaksel[kotaSiswa] || 0) + 1;
+                    locSchoolCounts.jaksel[sekolahSiswa] = (locSchoolCounts.jaksel[sekolahSiswa] || 0) + 1;
+                } else if (siswa.location === 'Jakarta Timur') {
+                    monthlyMap[key].jaktim += 1;
+                    locationCounts.jaktim += 1;
+                    locationOmsetReal.jaktim += omsetMasuk;
+                    locationPendingReal.jaktim += sisa;
+                    locCityCounts.jaktim[kotaSiswa] = (locCityCounts.jaktim[kotaSiswa] || 0) + 1;
+                    locSchoolCounts.jaktim[sekolahSiswa] = (locSchoolCounts.jaktim[sekolahSiswa] || 0) + 1;
+                }
+                
+                totalSiswaCount += 1;
+                totalOmsetTerealisasi += omsetMasuk;
+                totalPending += sisa;
+                
+                if (createdDate.getMonth() === currentMonth && createdDate.getFullYear() === currentYear) {
+                    siswaBulanIni += 1;
+                }
+
+                cityCounts[kotaSiswa] = (cityCounts[kotaSiswa] || 0) + 1;
+                schoolCounts[sekolahSiswa] = (schoolCounts[sekolahSiswa] || 0) + 1;
+
+                if (Array.isArray(siswa.info_villa_merah_dari)) {
+                    siswa.info_villa_merah_dari.forEach(info => {
+                        const infoKey = info.toUpperCase();
+                        infoCounts[infoKey] = (infoCounts[infoKey] || 0) + 1;
+                    });
+                }
+            });
+            
+            const monthlyArray = Object.values(monthlyMap).sort((a, b) => {
+                if (a.year !== b.year) return a.year - b.year;
+                return a.month - b.month;
+            });
+            
+            let kumulatif = 0;
+            monthlyArray.forEach(row => {
+                kumulatif += row.siswaBaru;
+                row.totalKumulatif = kumulatif;
+            });
+
+            const sortedCities = Object.entries(cityCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+
+            const sortedSchools = Object.entries(schoolCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+
+            const sortedInfo = Object.entries(infoCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+            
+            const getTopEntry = (counts) => {
+                const entries = Object.entries(counts);
+                if (entries.length === 0) return '-';
+                return entries.sort((a, b) => b[1] - a[1])[0][0];
+            };
+            
+            return {
+                monthly: monthlyArray,
+                totals: {
+                    siswaBaru: totalSiswaCount,
+                    totalSiswa: totalSiswaCount,
+                    omset: totalOmsetTerealisasi,
+                    bandung: locationCounts.bandung,
+                    jaksel: locationCounts.jaksel,
+                    jaktim: locationCounts.jaktim
+                },
+                locations: {
+                    bandung: { 
+                        total: locationCounts.bandung, 
+                        omset: locationOmsetReal.bandung.toFixed(0),
+                        pending: locationPendingReal.bandung.toFixed(0),
+                        topCity: getTopEntry(locCityCounts.bandung),
+                        topSchool: getTopEntry(locSchoolCounts.bandung)
+                    },
+                    jaksel: { 
+                        total: locationCounts.jaksel, 
+                        omset: locationOmsetReal.jaksel.toFixed(0),
+                        pending: locationPendingReal.jaksel.toFixed(0),
+                        topCity: getTopEntry(locCityCounts.jaksel),
+                        topSchool: getTopEntry(locSchoolCounts.jaksel)
+                    },
+                    jaktim: { 
+                        total: locationCounts.jaktim, 
+                        omset: locationOmsetReal.jaktim.toFixed(0),
+                        pending: locationPendingReal.jaktim.toFixed(0),
+                        topCity: getTopEntry(locCityCounts.jaktim),
+                        topSchool: getTopEntry(locSchoolCounts.jaktim)
+                    }
+                },
+                summary: {
+                    totalSiswa: totalSiswaCount,
+                    siswaBulanIni: siswaBulanIni,
+                    totalOmsetRaw: totalOmsetTerealisasi,
+                    omsetPendingRaw: totalPending
+                },
+                cities: {
+                    labels: sortedCities.map(c => c[0]),
+                    data: sortedCities.map(c => c[1])
+                },
+                schools: {
+                    labels: sortedSchools.map(s => s[0]),
+                    data: sortedSchools.map(s => s[1])
+                },
+                infoSources: {
+                    labels: sortedInfo.map(i => i[0]),
+                    data: sortedInfo.map(i => i[1])
+                }
+            };
+        }
+
+        function renderChartKota(olapData, canvasId) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            
+            const chartKey = canvasId;
+            if (charts[chartKey]) charts[chartKey].destroy();
+            
+            charts[chartKey] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: olapData.cities.labels,
+                    datasets: [{
+                        data: olapData.cities.data,
+                        backgroundColor: ['#475569', '#0ea5e9', '#6366f1', '#14b8a6', '#f43f5e'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '5 Wilayah Penyumbang Terbanyak',
+                            align: 'center',
+                            color: '#1e293b',
+                            font: {
+                                size: 14,
+                                weight: 'bold',
+                                family: 'Poppins'
+                            }
+                        },
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 10,
+                                padding: 10,
+                                font: { size: 9, family: 'Poppins' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((acc, curr) => acc + curr, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1) + '%';
+                                    return `${label}: ${value} (${percentage})`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '40%'
+                }
+            });
+        }
+
+        function renderChartSekolah(olapData, canvasId) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            
+            const chartKey = canvasId;
+            if (charts[chartKey]) charts[chartKey].destroy();
+            
+            charts[chartKey] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: olapData.schools.labels,
+                    datasets: [{
+                        data: olapData.schools.data,
+                        backgroundColor: ['#059669', '#d97706', '#dc2626', '#7c3aed', '#64748b'],
+                        hoverOffset: 10,
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '5 Sekolah Penyumbang Terbanyak',
+                            align: 'center',
+                            color: '#1e293b',
+                            font: {
+                                size: 14,
+                                weight: 'bold',
+                                family: 'Poppins'
+                            }
+                        },
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 10,
+                                padding: 10,
+                                font: { size: 9, family: 'Poppins' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((acc, curr) => acc + curr, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1) + '%';
+                                    return `${label}: ${value} (${percentage})`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '40%'
+                }
+            });
+        }
+
+        function renderChartInfo(olapData, canvasId) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            
+            const chartKey = canvasId;
+            if (charts[chartKey]) charts[chartKey].destroy();
+            
+            charts[chartKey] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: olapData.infoSources.labels,
+                    datasets: [{
+                        data: olapData.infoSources.data,
+                        backgroundColor: ['#8b5cf6', '#06b6d4', '#fb7185', '#94a3b8', '#f59e0b'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '5 Informasi VM Terbanyak',
+                            align: 'center',
+                            color: '#1e293b',
+                            font: {
+                                size: 14,
+                                weight: 'bold',
+                                family: 'Poppins'
+                            }
+                        },
+                        legend: { 
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 10,
+                                padding: 10,
+                                font: { size: 9, family: 'Poppins' }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((acc, curr) => acc + curr, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1) + '%';
+                                    return `${label}: ${value} (${percentage})`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '40%'
+                }
+            });
+        }
+        
+        function renderDataSiswa() {
+            const location = currentSubModule || 'Bandung';
+            let filteredData = currentData.filter(d => d.module === 'data-siswa' && d.location === location);
+            
+            const allPrograms = getAllProgramsList();
+            
+            if (selectedProgramFilter !== 'all') {
+                filteredData = filteredData.filter(d => d.program === selectedProgramFilter);
+            }
+
+            if (selectedYearFilter !== 'all') {
+                filteredData = filteredData.filter(d => {
+                    const year = new Date(d.createdAt).getFullYear();
+                    return year == selectedYearFilter;
+                });
+            }
+
+            if (selectedMonthFilter !== 'all') {
+                filteredData = filteredData.filter(d => {
+                    const month = new Date(d.createdAt).getMonth() + 1;
+                    return month == selectedMonthFilter;
+                });
+            }
+            
+            const isAdmin = currentUser.role === 'admin';
+            const content = document.getElementById('main-content');
+            
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200 font-['Poppins']">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                                <span class="material-symbols-rounded">group</span> Data Siswa - ${location}
+                            </h2>
+                            <p class="text-sm text-gray-500 mt-1">Total: ${filteredData.length} Siswa</p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="flex items-center gap-2">
+                                <select id="program-filter" onchange="applyDataSiswaFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
+                                    <option value="all" ${selectedProgramFilter === 'all' ? 'selected' : ''}>Semua Program</option>
+                                    ${allPrograms.map(prog => `<option value="${prog}" ${selectedProgramFilter === prog ? 'selected' : ''}>${prog}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="month-filter" onchange="applyDataSiswaFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
+                                    <option value="all" ${selectedMonthFilter === 'all' ? 'selected' : ''}>Semua Bulan</option>
+                                    ${daftarNamaBulan.slice(1).map((m, idx) => `<option value="${idx+1}" ${selectedMonthFilter == idx+1 ? 'selected' : ''}>${m}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="year-filter" onchange="applyDataSiswaFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm">
+                                    <option value="all" ${selectedYearFilter === 'all' ? 'selected' : ''}>Semua Tahun</option>
+                                    ${generateYearOptionsForFilter(selectedYearFilter)}
+                                </select>
+                            </div>
+                            ${isAdmin ? `
+                                <button onclick="showAddDataSiswaForm('${location}')" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold whitespace-nowrap text-sm">
+                                    + Tambah Siswa
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="table-container" style="max-height: 60vh; overflow-y: auto;">
+                        <table class="w-full text-sm">
+                            <thead class="sticky top-0 z-10">
+                                <tr class="bg-blue-600 text-white">
+                                    <th>NO</th>
+                                    <th>NAMA</th>
+                                    <th>TEMPAT TANGGAL LAHIR</th>
+                                    <th>ASAL SEKOLAH</th>
+                                    <th>KELAS</th>
+                                    <th>ALAMAT</th>
+                                    <th>KOTA/KAB ASAL</th>
+                                    <th>PROGRAM</th>
+                                    <th>MEDIA SOSIAL</th>
+                                    <th>NAMA AKUN</th>
+                                    <th>INFORMASI VILLA MERAH DARI</th>
+                                    <th>HP SISWA</th>
+                                    <th>NAMA ORTU</th>
+                                    <th>HP ORTU</th>
+                                    <th>TANGGAL DAFTAR</th>
+                                    <th>BIAYA</th>
+                                    <th>PEMBAYARAN</th>
+                                    <th>SISA</th>
+                                    ${isAdmin ? '<th class="sticky right-0 bg-blue-600 col-aksi">AKSI</th>' : ''}
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-siswa">
+                                ${filteredData.map((siswa, idx) => {
+                                    const platform = Array.isArray(siswa.platform_medsos) ? siswa.platform_medsos.join(', ') : (siswa.platform_medsos || '-');
+                                    const infoDari = Array.isArray(siswa.info_villa_merah_dari) ? siswa.info_villa_merah_dari.join(', ') : (siswa.info_villa_merah_dari || '-');
+                                    const realPay = (parseFloat(siswa.biaya_pendidikan) || 0) - (parseFloat(siswa.sisa_angsuran || 0));
+                                    return `
+                                    <tr class="border-b border-blue-200 hover:bg-blue-50 text-gray-700">
+                                        <td class="p-1 text-center text-[9px] uppercase font-mono">${idx + 1}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase font-bold text-black" title="${siswa.nama}">${siswa.nama}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase font-semibold text-blue-800" title="${siswa.ttl || '-'}">${siswa.ttl || '-'}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase" title="${siswa.asal_sekolah}">${siswa.asal_sekolah}</td>
+                                        <td class="p-1 text-center text-[9px] uppercase" title="${siswa.kelas}">${siswa.kelas || '-'}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase allow-wrap" title="${siswa.alamat_siswa || '-'}">${siswa.alamat_siswa || '-'}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase" title="${siswa.asal_kota || '-'}">${siswa.asal_kota || '-'}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase font-bold text-black" title="${siswa.program}">${siswa.program}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase">
+                                            <span class="bg-blue-100 text-blue-800 px-1 py-0.5 rounded text-[8px] font-bold uppercase whitespace-nowrap tracking-tight">${platform}</span>
+                                        </td>
+                                        <td class="p-1 text-left text-[9px] uppercase" title="${siswa.nama_medsos || '-'}">${siswa.nama_medsos || '-'}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase allow-wrap" title="${infoDari}">${infoDari}</td>
+                                        <td class="p-1 text-center text-[9px] font-mono">${siswa.no_hp_siswa || '-'}</td>
+                                        <td class="p-1 text-left text-[9px] uppercase" title="${siswa.nama_ortu}">${siswa.nama_ortu}</td>
+                                        <td class="p-1 text-center text-[9px] font-mono">${siswa.no_tlp_ortu}</td>
+                                        <td class="p-1 text-center text-[9px] font-semibold">${formatTanggal(siswa.createdAt)}</td>
+                                        <td class="p-1 text-left text-[9px] font-semibold text-blue-600">${formatRupiah(siswa.biaya_pendidikan)}</td>
+                                        <td class="p-1 text-left text-[9px] font-semibold text-green-600">${formatRupiah(realPay)}</td>
+                                        <td class="p-1 text-left text-[9px] font-semibold text-red-600">${formatRupiah(siswa.sisa_angsuran)}</td>
+                                        ${isAdmin ? `
+                                        <td class="p-1 text-center text-[9px] sticky right-0 bg-white col-aksi shadow-[-4px_0_6px_rgba(0,0,0,0.05)]">
+                                            <div class="flex flex-row justify-center gap-2 items-center">
+                                                <button onclick="showEditSiswaForm('${siswa.__backendId}')" class="text-blue-600 hover:text-blue-800 font-bold uppercase text-[9px]">EDIT</button>
+                                                <button onclick="deleteData('${siswa.__backendId}')" class="text-red-600 hover:text-red-700 font-bold uppercase text-[9px]">HAPUS</button>
+                                            </div>
+                                        </td>` : ''}
+                                    </tr>
+                                `}).join('')}
+                                ${filteredData.length === 0 ? `
+                                    <tr><td colspan="${isAdmin ? '18' : '17'}" class="p-8 text-center text-blue-600">
+                                        Tidak ada data siswa ditemukan untuk filter ini.
+                                    </td></tr>
+                                ` : ''}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function applyDataSiswaFilter() {
+            selectedProgramFilter = document.getElementById('program-filter').value;
+            selectedYearFilter = document.getElementById('year-filter').value;
+            selectedMonthFilter = document.getElementById('month-filter').value; 
+            renderDataSiswa();
+        }
+
+        function generateYearOptionsForFilter(currentSelected) {
+            const startYear = 2026;
+            const endYear = 2035; 
+            let options = '';
+            for (let year = startYear; year <= endYear; year++) {
+                options += `<option value="${year}" ${currentSelected == year ? 'selected' : ''}>${year}</option>`;
+            }
+            return options;
+        }
+        
+        function showAddDataSiswaForm(location) {
+            renderSiswaForm(location);
+        }
+
+        function showEditSiswaForm(backendId) {
+            const siswa = currentData.find(d => d.__backendId === backendId);
+            if (!siswa) return;
+            renderSiswaForm(siswa.location, siswa);
+        }
+
+        function renderSiswaForm(location, editData = null) {
+            const content = document.getElementById('main-content');
+            const isEdit = !!editData;
+            const tglDefault = isEdit ? new Date(editData.createdAt).toISOString().split('T')[0] : '';
+            const platforms = ['Instagram', 'TikTok', 'Twitter', 'YouTube', 'Lainnya'];
+            
+            const listProgramKelas = getAllProgramsList();
+
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl max-w-full mx-auto border border-blue-200 font-['Poppins']">
+                    <h2 class="text-2xl font-bold text-blue-600 mb-6">${isEdit ? 'Edit' : 'Tambah'} Siswa - ${location}</h2>
+                    
+                    <form id="form-siswa" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Nama Siswa</label>
+                                <input type="text" name="nama" value="${isEdit ? editData.nama : ''}" required 
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Tempat Tanggal Lahir</label>
+                                <input type="text" name="ttl" value="${isEdit ? (editData.ttl || '') : ''}" required placeholder="Misal: Bandung, 1 Januari 2008"
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">No HP Siswa</label>
+                                <input type="text" name="no_hp_siswa" value="${isEdit ? (editData.no_hp_siswa || '') : ''}" required placeholder="08123456789"
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Asal Sekolah</label>
+                                <input type="text" name="asal_sekolah" value="${isEdit ? editData.asal_sekolah : ''}" required 
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Kelas</label>
+                                <input type="text" name="kelas" value="${isEdit ? editData.kelas : ''}" required placeholder="Misal: 12 IPA 1"
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Asal Kota/Kab</label>
+                                <input type="text" name="asal_kota" value="${isEdit ? (editData.asal_kota || '') : ''}" required placeholder="Misal: Bandung"
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Program</label>
+                                <select name="program" required 
+                                        class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                    <option value="">Pilih Program Kelas</option>
+                                    ${listProgramKelas.map(prog => `<option value="${prog}" ${isEdit && editData.program === prog ? 'selected' : ''}>${prog}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Nama Akun Media Sosial</label>
+                                <input type="text" name="nama_medsos" value="${isEdit ? (editData.nama_medsos || '') : ''}" placeholder="@username"
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Alamat Siswa</label>
+                                <input type="text" name="alamat_siswa" value="${isEdit ? (editData.alamat_siswa || '') : ''}" required placeholder="Jl. Raya No. 123"
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Nama Orang Tua</label>
+                                <input type="text" name="nama_ortu" value="${isEdit ? editData.nama_ortu : ''}" required 
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">No Telepon Orang Tua</label>
+                                <input type="text" name="no_tlp_ortu" value="${isEdit ? editData.no_tlp_ortu : ''}" required 
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold text-left">Tanggal Daftar</label>
+                                <input type="date" name="tanggal_daftar" value="${tglDefault}" required 
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-1 text-sm font-semibold uppercase text-left tracking-tighter">Biaya Pendidikan</label>
+                                <input type="text" id="input-biaya" name="biaya_pendidikan" value="${isEdit ? parseInt(editData.biaya_pendidikan).toLocaleString('id-ID') : ''}" placeholder="20.000.000" required
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            </div>
+                            <div>
+                                <label class="block text-green-600 mb-1 text-sm font-bold uppercase text-left">Pembayaran</label>
+                                <input type="text" id="input-pembayaran" name="pembayaran" value="${isEdit ? ((parseFloat(editData.biaya_pendidikan) || 0) - (parseFloat(editData.sisa_angsuran || 0))).toLocaleString('id-ID') : ''}" placeholder="5.000.000" required
+                                       class="w-full p-2 border rounded border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 font-bold">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <div class="flex flex-col text-left">
+                                <label class="block text-sm font-bold mb-2 text-blue-600">Informasi VM Dari</label>
+                                <div class="grid grid-cols-2 gap-2 p-3 border rounded border-blue-300 bg-white h-[110px] overflow-y-auto">
+                                    ${daftarSumberInfo.map(info => `
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-blue-50 p-1 rounded transition-colors text-[10px]">
+                                            <input type="checkbox" name="info_villa_merah_dari" value="${info}" class="siswa-info-checkbox h-3 w-3" 
+                                                ${isEdit && editData.info_villa_merah_dari && editData.info_villa_merah_dari.includes(info) ? 'checked' : ''}>
+                                            <span class="whitespace-nowrap">${info}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col text-left">
+                                <label class="block text-sm font-bold mb-2 text-blue-600">Media Sosial</label>
+                                <div class="grid grid-cols-2 gap-2 p-3 border rounded border-blue-300 bg-white h-[110px] overflow-y-auto">
+                                    ${platforms.map(p => `
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-blue-50 p-1 rounded transition-colors text-[10px]">
+                                            <input type="checkbox" name="platform_medsos" value="${p}" class="siswa-platform-checkbox h-3 w-3" 
+                                                ${isEdit && editData.platform_medsos && editData.platform_medsos.includes(p) ? 'checked' : ''}>
+                                            <span class="whitespace-nowrap">${p}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 mt-8">
+                            <button type="submit" id="btn-submit"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded font-bold uppercase transition shadow-md">
+                                ${isEdit ? 'UPDATE' : 'SIMPAN'}
+                            </button>
+                            <button type="button" onclick="navigateTo('data-siswa', '${location}')"
+                                    class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-2.5 rounded font-bold uppercase transition shadow-md">
+                                BATAL
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.querySelectorAll('.siswa-platform-checkbox').forEach(cb => {
+                cb.onchange = () => {
+                    const checkedCount = document.querySelectorAll('.siswa-platform-checkbox:checked').length;
+                    if (checkedCount > 3) {
+                        cb.checked = false;
+                        alert('Maksimal pilih 3 media sosial!');
+                    }
+                };
+            });
+
+            document.querySelectorAll('.siswa-info-checkbox').forEach(cb => {
+                cb.onchange = () => {
+                    const checkedCount = document.querySelectorAll('.siswa-info-checkbox:checked').length;
+                    if (checkedCount > 3) {
+                        cb.checked = false;
+                        alert('Maksimal pilih 3 sumber informasi!');
+                    }
+                };
+            });
+
+            document.getElementById('form-siswa').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const submitBtn = document.getElementById('btn-submit');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Menyimpan...';
+                
+                const formData = new FormData(e.target);
+                const selectedPlatforms = Array.from(document.querySelectorAll('.siswa-platform-checkbox:checked')).map(cb => cb.value);
+                const selectedInfo = Array.from(document.querySelectorAll('.siswa-info-checkbox:checked')).map(cb => cb.value);
+                
+                const tgl = formData.get('tanggal_daftar');
+                const biayaVal = formData.get('biaya_pendidikan').replace(/\./g, '');
+                const bayarVal = formData.get('pembayaran').replace(/\./g, '');
+                
+                const sisaVal = (parseInt(biayaVal) || 0) - (parseInt(bayarVal) || 0);
+                
+                const payload = {
+                    nama: formData.get('nama'),
+                    ttl: formData.get('ttl'),
+                    no_hp_siswa: formData.get('no_hp_siswa'),
+                    asal_sekolah: formData.get('asal_sekolah'),
+                    kelas: formData.get('kelas'),
+                    asal_kota: formData.get('asal_kota'),
+                    program: formData.get('program'),
+                    nama_medsos: formData.get('nama_medsos'),
+                    platform_medsos: selectedPlatforms,
+                    info_villa_merah_dari: selectedInfo,
+                    alamat_siswa: formData.get('alamat_siswa'),
+                    nama_ortu: formData.get('nama_ortu'),
+                    no_tlp_ortu: formData.get('no_tlp_ortu'),
+                    biaya_pendidikan: biayaVal,
+                    sisa_angsuran: sisaVal,
+                    createdAt: tgl ? new Date(tgl).toISOString() : new Date().toISOString()
+                };
+
+                let result;
+                if (isEdit) {
+                    result = await window.dataSdk.update(editData.__backendId, payload);
+                } else {
+                    result = await window.dataSdk.create({ ...payload, module: 'data-siswa', location: location });
+                }
+                
+                if (result.isOk) {
+                    navigateTo('data-siswa', location);
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = isEdit ? 'UPDATE' : 'SIMPAN';
+                    alert('Gagal menyimpan data');
+                }
+            });
+            
+            formatNumberInput('input-biaya');
+            formatNumberInput('input-pembayaran');
+        }
+
+        function formatNumberInput(inputId) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            input.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\./g, '');
+                if (!isNaN(value) && value !== '') {
+                    e.target.value = parseInt(value).toLocaleString('id-ID');
+                } else if (value === '') {
+                    e.target.value = '';
+                }
+            });
+        }
+        
+        async function deleteData(backendId) {
+            if (currentUser.role !== 'admin') { alert('Hanya Admin!'); return; }
+            const record = currentData.find(d => d.__backendId === backendId);
+            if (!record) return;
+            
+            if (confirm('Yakin ingin menghapus data ini?')) {
+                const result = await window.dataSdk.delete(record);
+                if (!result.isOk) {
+                    alert('Gagal menghapus data');
+                }
+            }
+        }
+        
+        function renderTargetPeraihanDetail() {
+            const location = currentSubModule || 'Bandung';
+            const allPrograms = getAllProgramsList();
+            
+            let filteredTargetData = currentData.filter(d => d.module === 'target-market' && d.wilayah === location);
+            let filteredSiswaData = currentData.filter(d => d.module === 'data-siswa' && d.location === location);
+
+            if (selectedProgramFilter !== 'all') {
+                filteredTargetData = filteredTargetData.filter(d => d.program === selectedProgramFilter);
+                filteredSiswaData = filteredSiswaData.filter(d => d.program === selectedProgramFilter);
+            }
+            
+            if (selectedYearFilter !== 'all') {
+                filteredTargetData = filteredTargetData.filter(d => d.tahun == selectedYearFilter);
+                filteredSiswaData = filteredSiswaData.filter(d => new Date(d.createdAt).getFullYear() == selectedYearFilter);
+            }
+
+            if (selectedMonthFilter !== 'all') {
+                filteredTargetData = filteredTargetData.filter(d => d.bulan == selectedMonthFilter);
+                filteredSiswaData = filteredSiswaData.filter(d => (new Date(d.createdAt).getMonth() + 1) == selectedMonthFilter);
+            }
+
+            const isAdmin = currentUser.role === 'admin';
+            const chartData = generateTargetPeraihanChartData(filteredTargetData, selectedProgramFilter, location);
+            const olapSiswaData = generateOLAPFromData(filteredSiswaData);
+            
+            const labelProgram = selectedProgramFilter === 'all' ? 'Semua Program' : selectedProgramFilter;
+
+            const targetOmsetModul = chartData.summary.totalTargetOmsetRaw;
+            const omsetRealisasiModul = chartData.summary.totalRealisasiOmsetRaw;
+            const omsetGapModul = targetOmsetModul - omsetRealisasiModul;
+
+            const content = document.getElementById('main-content');
+            
+            let totalTgtSiswa = 0, totalRelSiswa = 0, totalTgtOmset = 0, totalRelOmset = 0;
+            chartData.tableRows.forEach(row => {
+                totalTgtSiswa += row.targetSiswa;
+                totalRelSiswa += row.realSiswa;
+                totalTgtOmset += row.targetOmset;
+                totalRelOmset += row.realOmset;
+            });
+            const totalSiswaGap = totalTgtSiswa - totalRelSiswa;
+            const totalOmsetGap = totalTgtOmset - totalRelOmset;
+
+            // LOGIKA KONDISI GRAFIK HARIAN (SINKRONISASI DATA SISWA & OMSET)
+            const showDailyChart = selectedMonthFilter !== 'all' && selectedYearFilter !== 'all';
+            let dailySiswaStats = null;
+            if (showDailyChart) {
+                const daysInMonth = new Date(selectedYearFilter, selectedMonthFilter, 0).getDate();
+                const dailyClosing = new Array(daysInMonth).fill(0);
+                const dailyOmset = new Array(daysInMonth).fill(0);
+
+                filteredSiswaData.forEach(siswa => {
+                    const d = new Date(siswa.createdAt);
+                    if ((d.getMonth() + 1) == selectedMonthFilter && d.getFullYear() == selectedYearFilter) {
+                        const dayIdx = d.getDate() - 1;
+                        dailyClosing[dayIdx]++;
+                        
+                        const biaya = parseFloat(siswa.biaya_pendidikan) || 0;
+                        const sisa = parseFloat(siswa.sisa_angsuran) || 0;
+                        dailyOmset[dayIdx] += (biaya - sisa);
+                    }
+                });
+
+                dailySiswaStats = {
+                    labels: Array.from({length: daysInMonth}, (_, i) => (i + 1).toString()),
+                    closing: dailyClosing,
+                    omset: dailyOmset
+                };
+            }
+
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200 font-['Poppins']">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                                <span class="material-symbols-rounded">ads_click</span> Peraihan Siswa dan Omset - ${location}
+                            </h2>
+                            <p class="text-sm text-gray-600 mt-1">Analisis peraihan siswa dan omset : ${labelProgram}</p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="flex items-center gap-2">
+                                <select id="program-filter-tm" onchange="applyTMFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm font-['Poppins']">
+                                    <option value="all" ${selectedProgramFilter === 'all' ? 'selected' : ''}>Semua Program</option>
+                                    ${allPrograms.map(prog => `<option value="${prog}" ${selectedProgramFilter === prog ? 'selected' : ''}>${prog}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="month-filter-tm" onchange="applyTMFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm font-['Poppins']">
+                                    <option value="all" ${selectedMonthFilter === 'all' ? 'selected' : ''}>Semua Bulan</option>
+                                    ${daftarNamaBulan.slice(1).map((m, idx) => `<option value="${idx+1}" ${selectedMonthFilter == idx+1 ? 'selected' : ''}>${m}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="year-filter-tm" onchange="applyTMFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm font-['Poppins']">
+                                    <option value="all" ${selectedYearFilter === 'all' ? 'selected' : ''}>Semua Tahun</option>
+                                    ${generateYearOptionsForFilter(selectedYearFilter)}
+                                </select>
+                            </div>
+                            ${isAdmin ? `
+                                <button onclick="showAddTargetPeraihanForm('${location}')" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold text-sm transition">
+                                    + Tambah Data
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <div class="flex-[2] min-w-[200px] bg-blue-900 text-white p-5 rounded-xl shadow-lg text-center">
+                            <div class="text-[10px] font-black uppercase text-blue-100 tracking-tighter">Target Omset</div>
+                            <div class="text-2xl font-bold mt-1 break-words">${formatRupiahFull(targetOmsetModul)}</div>
+                        </div>
+                        <div class="flex-[2] min-w-[200px] bg-emerald-600 text-white p-5 rounded-xl shadow-lg text-center">
+                            <div class="text-[10px] font-black uppercase text-emerald-50 tracking-tighter">Omset Tercapai</div>
+                            <div class="text-2xl font-bold mt-1 break-words">${formatRupiahFull(omsetRealisasiModul)}</div>
+                        </div>
+                        <div class="flex-[2] min-w-[200px] bg-amber-600 text-white p-5 rounded-xl shadow-lg text-center">
+                            <div class="text-[10px] font-black uppercase text-amber-100 tracking-tighter">Omset Belum Tercapai</div>
+                            <div class="text-2xl font-bold mt-1 break-words">${formatRupiahFull(omsetGapModul)}</div>
+                        </div>
+                        <div class="flex-1 min-w-[120px] bg-sky-500 text-white p-4 rounded-xl shadow-lg text-center flex flex-col justify-center">
+                            <div class="text-[10px] font-black uppercase text-sky-50 tracking-tighter whitespace-nowrap">Target Siswa</div>
+                            <div class="text-3xl font-bold mt-1 break-words">${chartData.summary.totalTargetSiswa}</div>
+                        </div>
+                        <div class="flex-1 min-w-[120px] bg-indigo-500 text-white p-4 rounded-xl shadow-lg text-center flex flex-col justify-center">
+                            <div class="text-[10px] font-black uppercase text-indigo-50 tracking-tighter whitespace-nowrap">Siswa Tercapai</div>
+                            <div class="text-3xl font-bold mt-1 break-words">${chartData.summary.totalRealisasiSiswa}</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-white border border-blue-200 rounded-lg p-5 shadow-lg">
+                            <h3 class="text-lg font-bold text-blue-600 mb-4 text-left flex items-center gap-2">
+                                <span class="material-symbols-rounded">group</span> Target vs Siswa Tercapai
+                            </h3>
+                            <div class="chart-container">
+                                <canvas id="chart-siswa-target"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white border border-blue-200 rounded-lg p-5 shadow-lg">
+                            <h3 class="text-lg font-bold text-blue-600 mb-4 text-left flex items-center gap-2">
+                                <span class="material-symbols-rounded">payments</span> Target vs Omset Tercapai
+                            </h3>
+                            <div class="chart-container">
+                                <canvas id="chart-omset-target"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="daily-chart-container" class="${showDailyChart ? '' : 'hidden'} bg-white p-5 rounded-2xl border border-blue-100 shadow-md mb-8">
+                        <h3 class="text-xs font-black text-blue-700 mb-6 uppercase text-center tracking-widest">Grafik peraihan siswa dan Omset Harian</h3>
+                        <div class="h-64"><canvas id="chart-tm-daily-sync"></canvas></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200">
+                            <h3 class="text-blue-600 text-xl font-bold mb-4 text-center">Statistik Sekolah</h3>
+                            <div class="h-[300px]">
+                                <canvas id="chart-sekolah-target-module"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200">
+                            <h3 class="text-blue-600 text-xl font-bold mb-4 text-center">Statistik Wilayah</h3>
+                            <div class="h-[300px]">
+                                <canvas id="chart-kota-target-module"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200">
+                            <h3 class="text-blue-600 text-xl font-bold mb-4 text-center">Statistik Informasi</h3>
+                            <div class="h-[300px]">
+                                <canvas id="chart-info-target-module"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white border border-blue-200 rounded-lg p-5 shadow-lg">
+                        <h3 class="text-lg font-bold text-blue-600 mb-4 text-left flex items-center gap-2">
+                            <span class="material-symbols-rounded">list_alt</span> Detail Data Akumulasi Per Periode ${labelProgram}
+                        </h3>
+                        <div class="table-container" style="max-height: 45vh; overflow-y: auto;">
+                            <table class="w-full text-sm">
+                                <thead class="sticky top-0 z-10">
+                                    <tr class="bg-blue-600 text-white">
+                                        <th>NO</th>
+                                        <th>TAHUN</th>
+                                        <th>BULAN</th>
+                                        <th class="bg-blue-700">Target Siswa</th>
+                                        <th>SISWA TERCAPAI</th>
+                                        <th class="bg-rose-700">BELUM TERCAPAI</th>
+                                        <th class="bg-blue-700">Target Omset</th>
+                                        <th>OMSET TERCAPAI</th>
+                                        <th class="bg-rose-700">BELUM TERCAPAI</th>
+                                        ${selectedProgramFilter !== 'all' && isAdmin ? '<th class="sticky right-0 bg-blue-600 col-aksi shadow-[-4px_0_6px_rgba(0,0,0,0.05)]">AKSI</th>' : ''}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${chartData.tableRows.length === 0 ? `
+                                        <tr><td colspan="${selectedProgramFilter !== 'all' && isAdmin ? '10' : '9'}" class="p-8 text-center text-blue-600 font-medium">
+                                            <div class="text-lg mb-2">📊 Belum ada data tersedia</div>
+                                        </td></tr>
+                                    ` : chartData.tableRows.map((row, idx) => {
+                                        const siswaGap = row.targetSiswa - row.realSiswa;
+                                        const omsetGap = row.targetOmset - row.realOmset;
+                                        return `
+                                        <tr class="border-b border-blue-100 hover:bg-blue-50 ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} text-gray-700">
+                                            <td class="p-2 text-center text-xs font-mono">${idx + 1}</td> 
+                                            <td class="p-2 text-center text-xs uppercase font-mono tracking-tighter">${row.tahun}</td>
+                                            <td class="p-2 text-center text-xs font-bold uppercase text-blue-700 tracking-tight">${row.bulanName}</td>
+                                            <td class="p-2 text-center text-xs font-semibold text-blue-600 uppercase bg-blue-50/50 font-mono">${row.targetSiswa}</td>
+                                            <td class="p-2 text-center text-xs font-bold text-green-600 uppercase font-mono">${row.realSiswa}</td>
+                                            <td class="p-2 text-center text-xs font-bold text-rose-600 uppercase bg-rose-50 font-mono">${Math.max(0, siswaGap)}</td>
+                                            <td class="p-2 text-center text-xs font-semibold text-purple-600 uppercase bg-blue-50/50 font-mono tracking-tighter">${formatRupiah(row.targetOmset)}</td>
+                                            <td class="p-2 text-center text-xs font-bold text-emerald-600 uppercase font-mono tracking-tighter">${formatRupiah(row.realOmset)}</td>
+                                            <td class="p-2 text-center text-xs font-bold text-rose-600 uppercase bg-rose-50 font-mono tracking-tighter">${formatRupiah(Math.max(0, omsetGap))}</td>
+                                            ${selectedProgramFilter !== 'all' && isAdmin ? `
+                                            <td class="p-2 text-center text-xs sticky right-0 bg-white col-aksi shadow-[-4px_0_6px_rgba(0,0,0,0.05)]">
+                                                <div class="flex flex-row justify-center gap-2 items-center">
+                                                    <button onclick="showEditTargetPeraihanForm('${row.id}')" class="text-blue-600 font-bold hover:text-blue-800 uppercase text-[9px]">EDIT</button>
+                                                    <button onclick="deleteData('${row.id}')" class="text-red-600 font-bold hover:text-red-700 font-bold uppercase text-[9px]">HAPUS</button>
+                                                </div>
+                                            </td>` : ''}
+                                        </tr>
+                                    `}).join('')}
+                                </tbody>
+                                <tfoot class="sticky bottom-0 z-10 bg-slate-100 font-black border-t-2 border-blue-400 tracking-tight">
+                                    <tr class="text-slate-800">
+                                        <td colspan="3" class="p-2 text-center text-xs uppercase font-extrabold">GRAND TOTAL</td>
+                                        <td class="p-2 text-center text-xs text-blue-700 bg-blue-50 font-mono">${totalTgtSiswa}</td>
+                                        <td class="p-2 text-center text-xs text-green-700 font-mono">${totalRelSiswa}</td>
+                                        <td class="p-2 text-center text-xs text-rose-700 bg-rose-100 font-mono">${Math.max(0, totalSiswaGap)}</td>
+                                        <td class="p-2 text-center text-xs text-purple-700 bg-blue-50 font-mono tracking-tighter">${formatRupiah(totalTgtOmset)}</td>
+                                        <td class="p-2 text-center text-xs text-emerald-700 font-mono tracking-tighter">${formatRupiah(totalRelOmset)}</td>
+                                        <td class="p-2 text-center text-xs text-rose-700 bg-rose-100 font-mono tracking-tighter">${formatRupiah(Math.max(0, totalOmsetGap))}</td>
+                                        ${selectedProgramFilter !== 'all' && isAdmin ? '<td class="bg-slate-100"></td>' : ''}
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+            setTimeout(() => { 
+                renderTargetPeraihanCharts(chartData); 
+                renderChartKota(olapSiswaData, 'chart-kota-target-module');
+                renderChartSekolah(olapSiswaData, 'chart-sekolah-target-module');
+                renderChartInfo(olapSiswaData, 'chart-info-target-module');
+                if (showDailyChart && dailySiswaStats) {
+                    renderDailySyncChart(dailySiswaStats);
+                }
+            }, 100);
+        }
+
+        function renderDailySyncChart(stats) {
+            const ctx = document.getElementById('chart-tm-daily-sync');
+            if (!ctx) return;
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: stats.labels,
+                    datasets: [
+                        {
+                            label: 'Siswa Baru (Closing)',
+                            data: stats.closing,
+                            backgroundColor: '#10b981', // Hijau
+                            borderRadius: 4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Omset Harian (Rp)',
+                            data: stats.omset,
+                            backgroundColor: '#3b82f6', // Biru
+                            borderRadius: 4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: { 
+                        legend: { position: 'top', labels: { font: { size: 10, family: 'Poppins', weight: 'bold' } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) label += ': ';
+                                    if (context.datasetIndex === 1) {
+                                        label += 'Rp ' + context.parsed.y.toLocaleString('id-ID');
+                                    } else {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            beginAtZero: true, 
+                            title: { display: true, text: 'Jumlah Siswa', font: { size: 10, family: 'Poppins' } },
+                            ticks: { stepSize: 1, font: { size: 9 } }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            beginAtZero: true,
+                            title: { display: true, text: 'Omset (Rupiah)', font: { size: 10, family: 'Poppins' } },
+                            grid: { drawOnChartArea: false },
+                            ticks: { 
+                                font: { size: 9 },
+                                callback: function(value) { return value.toLocaleString('id-ID'); }
+                            }
+                        },
+                        x: { 
+                            ticks: { font: { size: 9 } },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateTargetPeraihanChartData(filteredTargetData, programFilter, currentLoc) {
+            const monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            const aggregation = {};
+            let totalTargetSiswa = 0, totalRealisasiSiswa = 0, totalTargetOmset = 0, totalRealisasiOmset = 0, totalSisaAngsuran = 0;
+
+            filteredTargetData.forEach(item => {
+                const key = `${item.bulan}-${item.tahun}`;
+                if (!aggregation[key]) {
+                    aggregation[key] = { 
+                        bulan: item.bulan, tahun: item.tahun, 
+                        targetSiswa: 0, realSiswa: 0, targetOmset: 0, realOmset: 0, ids: []
+                    };
+                }
+
+                const realSiswaList = currentData.filter(s => {
+                    if (s.module !== 'data-siswa' || s.location !== currentLoc) return false;
+                    if (selectedProgramFilter !== 'all' && s.program !== selectedProgramFilter) return false;
+                    const d = new Date(s.createdAt);
+                    return (d.getMonth() + 1) == item.bulan && d.getFullYear() == item.tahun;
+                });
+
+                aggregation[key].targetSiswa += (parseInt(item.target_siswa) || 0);
+                aggregation[key].realSiswa += realSiswaList.length;
+                aggregation[key].targetOmset += (parseFloat(item.target_omset) || 0);
+                
+                const realisasiBulanIni = realSiswaList.reduce((acc, s) => acc + (parseFloat(s.biaya_pendidikan || 0) - parseFloat(s.sisa_angsuran || 0)), 0);
+                const sisaBulanIni = realSiswaList.reduce((acc, s) => acc + (parseFloat(s.sisa_angsuran || 0)), 0);
+                
+                aggregation[key].realOmset += realisasiBulanIni;
+                totalSisaAngsuran += sisaBulanIni;
+                
+                aggregation[key].ids.push(item.__backendId);
+            });
+
+            const sortedKeys = Object.keys(aggregation).sort((a, b) => {
+                const [m1, y1] = a.split('-'); const [m2, y2] = b.split('-');
+                return y1 !== y2 ? y1 - y2 : m1 - m2;
+            });
+
+            const labels = [], targetSiswaData = [], realisasiSiswaData = [], targetOmsetData = [], realisasiOmsetData = [], tableRows = [];
+
+            sortedKeys.forEach(key => {
+                const data = aggregation[key];
+                labels.push(`${monthShort[data.bulan - 1]}`);
+                targetSiswaData.push(data.targetSiswa);
+                realisasiSiswaData.push(data.realSiswa);
+                targetOmsetData.push(data.targetOmset / 1000000);
+                realisasiOmsetData.push(data.realOmset / 1000000);
+
+                totalTargetSiswa += data.targetSiswa;
+                totalRealisasiSiswa += data.realSiswa;
+                totalTargetOmset += data.targetOmset;
+                totalRealisasiOmset += data.realOmset;
+
+                tableRows.push({
+                    bulanName: daftarNamaBulan[data.bulan],
+                    tahun: data.tahun,
+                    targetSiswa: data.targetSiswa,
+                    realSiswa: data.realSiswa,
+                    targetOmset: data.targetOmset,
+                    realOmset: data.realOmset,
+                    id: data.ids[0]
+                });
+            });
+
+            return { 
+                labels, targetSiswaData, realisasiSiswaData, targetOmsetData, realisasiOmsetData, tableRows,
+                summary: { 
+                    totalTargetSiswa, 
+                    totalRealisasiSiswa, 
+                    totalTargetOmsetRaw: totalTargetOmset, 
+                    totalRealisasiOmsetRaw: totalRealisasiOmset,
+                    totalSisaAngsuranRaw: totalSisaAngsuran 
+                }
+            };
+        }
+
+        function applyTMFilter() {
+            selectedProgramFilter = document.getElementById('program-filter-tm')?.value || 'all';
+            selectedYearFilter = document.getElementById('year-filter-tm')?.value || 'all';
+            selectedMonthFilter = document.getElementById('month-filter-tm')?.value || 'all';
+            renderTargetPeraihanDetail();
+        }
+        
+        function showAddTargetPeraihanForm(location) {
+            renderTargetPeraihanForm(location);
+        }
+
+        function showEditTargetPeraihanForm(backendId) {
+            const data = currentData.find(d => d.__backendId === backendId);
+            if (!data) return;
+            renderTargetPeraihanForm(data.wilayah, data);
+        }
+
+        function renderTargetPeraihanForm(location, editData = null) {
+            const content = document.getElementById('main-content');
+            const isEdit = !!editData;
+            const allPrograms = getAllProgramsList();
+
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl max-w-full mx-auto border border-blue-200 font-['Poppins']">
+                    <h2 class="text-2xl font-bold text-blue-600 mb-6">${isEdit ? 'Edit' : 'Tambah'} Target Peraihan - ${location}</h2>
+                    <form id="form-target-market" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                            <div class="text-left">
+                                <label class="block text-gray-700 mb-2 text-sm font-bold">Program</label>
+                                <select name="program" id="tm-program" required class="w-full px-4 py-2 rounded border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']">
+                                    <option value="">Pilih Program</option>
+                                    ${allPrograms.map(prog => `<option value="${prog}" ${isEdit && editData.program === prog ? 'selected' : ''}>${prog}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="text-left">
+                                <label class="block text-gray-700 mb-2 text-sm font-bold">Bulan</label>
+                                <select name="bulan" id="tm-bulan" required class="w-full px-4 py-2 rounded border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']">
+                                    <option value="">Pilih Bulan</option>
+                                    ${daftarNamaBulan.slice(1).map((m, idx) => `<option value="${idx+1}" ${isEdit && editData.bulan == idx+1 ? 'selected' : ''}>${m}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="text-left">
+                                <label class="block text-gray-700 mb-2 text-sm font-bold">Tahun</label>
+                                <select name="tahun" id="tm-tahun" required class="w-full px-4 py-2 rounded border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']">
+                                    <option value="">Pilih Tahun</option>
+                                    ${[2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035].map(y => `<option value="${y}" ${isEdit && editData.tahun == y ? 'selected' : ''}>${y}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="text-left">
+                                <label class="block text-gray-700 mb-2 text-sm font-bold">Target Jumlah Siswa</label>
+                                <input type="number" name="target_siswa" value="${isEdit ? editData.target_siswa : ''}" required min="0" class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']">
+                            </div>
+                            <div class="text-left">
+                                <label class="block text-gray-700 mb-2 text-sm font-bold">Target Omset</label>
+                                <input type="text" id="input-target-omset" name="target_omset" value="${isEdit ? parseInt(editData.target_omset).toLocaleString('id-ID') : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']">
+                            </div>
+                        </div>
+                        <div class="flex gap-4 mt-6">
+                            <button type="submit" id="btn-submit-tm" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-bold uppercase transition shadow-sm">${isEdit ? 'Update' : 'Simpan'}</button>
+                            <button type="button" onclick="navigateTo('target-peraihan', '${location}')" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded font-bold uppercase transition shadow-sm">Batal</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.getElementById('form-target-market').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const prog = fd.get('program');
+                const bln = fd.get('bulan');
+                const thn = fd.get('tahun');
+
+                if (!isEdit) {
+                    const isExist = currentData.some(d => 
+                        d.module === 'target-market' && 
+                        d.wilayah === location && 
+                        d.program === prog && 
+                        d.bulan == bln && 
+                        d.tahun == thn
+                    );
+
+                    if (isExist) {
+                        alert(`Data untuk Program ${prog} pada ${daftarNamaBulan[bln]} ${thn} sudah ada!`);
+                        return;
+                    }
+                }
+
+                const payload = {
+                    wilayah: location,
+                    program: prog,
+                    bulan: bln,
+                    tahun: thn,
+                    target_siswa: fd.get('target_siswa'),
+                    target_omset: fd.get('target_omset').replace(/\./g, '')
+                };
+
+                let result;
+                if (isEdit) {
+                    result = await window.dataSdk.update(editData.__backendId, payload);
+                } else {
+                    result = await window.dataSdk.create({ ...payload, module: 'target-market' });
+                }
+                if (result.isOk) navigateTo('target-peraihan', location);
+            });
+            formatNumberInput('input-target-omset');
+        }
+
+        function renderTargetPeraihanCharts(chartData) {
+            const ctxSiswa = document.getElementById('chart-siswa-target');
+            if (ctxSiswa) {
+                if (charts.siswaTarget) charts.siswaTarget.destroy();
+                charts.siswaTarget = new Chart(ctxSiswa, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [
+                            { 
+                                label: 'Target Siswa', 
+                                data: chartData.targetSiswaData, 
+                                backgroundColor: '#64748b', 
+                                borderRadius: 5 
+                            },
+                            { 
+                                label: 'Siswa Tercapai', 
+                                data: chartData.realisasiSiswaData, 
+                                backgroundColor: '#fbbf24', 
+                                borderRadius: 5 
+                            }
+                        ]
+                    },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        plugins: { 
+                            legend: { position: 'bottom', labels: { family: 'Poppins' } } 
+                        },
+                        scales: {
+                            x: { ticks: { family: 'Poppins' } },
+                            y: { ticks: { family: 'Poppins' } }
+                        }
+                    }
+                });
+            }
+            const ctxOmset = document.getElementById('chart-omset-target');
+            if (ctxOmset) {
+                if (charts.omsetTarget) charts.omsetTarget.destroy();
+                charts.omsetTarget = new Chart(ctxOmset, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [
+                            { 
+                                label: 'Target Omset (Juta)', 
+                                data: chartData.targetOmsetData, 
+                                backgroundColor: '#94a3b8', 
+                                borderRadius: 5 
+                            },
+                            { 
+                                label: 'Omset Tercapai (Juta)', 
+                                data: chartData.realisasiOmsetData, 
+                                backgroundColor: '#818cf8', 
+                                borderRadius: 5 
+                            }
+                        ]
+                    },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        plugins: { 
+                            legend: { position: 'bottom', labels: { family: 'Poppins' } } 
+                        },
+                        scales: {
+                            x: { ticks: { family: 'Poppins' } },
+                            y: { ticks: { family: 'Poppins' } }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function renderDataLeadsDetail() {
+            const location = currentSubModule || 'Bandung';
+            let filteredData = currentData.filter(d => d.module === 'data-leads' && d.wilayah === location);
+            
+            if (selectedStatusFilter === 'not_closing') {
+                filteredData = filteredData.filter(d => !d.is_closing);
+            } else if (selectedStatusFilter === 'is_closing') {
+                filteredData = filteredData.filter(d => d.is_closing);
+            }
+
+            const allPrograms = getLeadsProgramsList();
+
+            if (selectedProgramFilter !== 'all') {
+                filteredData = filteredData.filter(d => d.program === selectedProgramFilter);
+            }
+
+            if (selectedMonthFilter !== 'all') {
+                filteredData = filteredData.filter(d => {
+                    if (!d.createdAt) return false;
+                    const month = new Date(d.createdAt).getMonth() + 1;
+                    return month == selectedMonthFilter;
+                });
+            }
+
+            if (selectedYearFilter !== 'all') {
+                filteredData = filteredData.filter(d => {
+                    if (!d.createdAt) return false;
+                    const year = new Date(d.createdAt).getFullYear();
+                    return year == selectedYearFilter;
+                });
+            }
+
+            const isAdmin = currentUser.role === 'admin';
+            const content = document.getElementById('main-content');
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl border border-blue-200 font-['Poppins']">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                                <span class="material-symbols-rounded">description</span> Data Leads - ${location}
+                            </h2>
+                            <p class="text-sm text-gray-600 mt-1 font-medium">Total: ${filteredData.length} Lead Calon Siswa</p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <div class="flex items-center gap-2">
+                                <select id="status-filter-leads" onchange="applyLeadsFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm font-['Poppins']">
+                                    <option value="all" ${selectedStatusFilter === 'all' ? 'selected' : ''}>Semua Status</option>
+                                    <option value="not_closing" ${selectedStatusFilter === 'not_closing' ? 'selected' : ''}>Belum Closing</option>
+                                    <option value="is_closing" ${selectedStatusFilter === 'is_closing' ? 'selected' : ''}>Sudah Closing</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="program-filter-leads" onchange="applyLeadsFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm font-['Poppins']">
+                                    <option value="all" ${selectedProgramFilter === 'all' ? 'selected' : ''}>Semua Program</option>
+                                    ${allPrograms.map(prog => `<option value="${prog}" ${selectedProgramFilter === prog ? 'selected' : ''}>${prog}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="month-filter-leads" onchange="applyLeadsFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm font-['Poppins']">
+                                    <option value="all" ${selectedMonthFilter === 'all' ? 'selected' : ''}>Semua Bulan</option>
+                                    ${daftarNamaBulan.slice(1).map((m, idx) => `<option value="${idx+1}" ${selectedMonthFilter == idx+1 ? 'selected' : ''}>${m}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <select id="year-filter-leads" onchange="applyLeadsFilter()" 
+                                        class="px-3 py-2 rounded bg-white text-gray-800 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm font-['Poppins']">
+                                    <option value="all" ${selectedYearFilter === 'all' ? 'selected' : ''}>Semua Tahun</option>
+                                    ${generateYearOptionsForFilter(selectedYearFilter)}
+                                </select>
+                            </div>
+                            ${isAdmin ? `
+                                <button onclick="showAddDataLeadsForm('${location}')" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold text-sm transition whitespace-nowrap">
+                                    + Tambah Lead
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white border border-blue-200 rounded-lg shadow-lg overflow-hidden">
+                        <div class="table-container" style="max-height: 60vh; overflow-y: auto;">
+                            <table class="w-full">
+                                <thead class="sticky top-0 z-10">
+                                    <tr class="bg-blue-600 text-white">
+                                        <th>NO</th>
+                                        <th>NAMA SISWA</th>
+                                        <th>TEMPAT TANGGAL LAHIR</th>
+                                        <th>ASAL SEKOLAH</th>
+                                        <th>KELAS</th>
+                                        <th>NO HP</th>
+                                        <th>MEDIA SOSIAL</th>
+                                        <th>NAMA AKUN</th>
+                                        <th>ALAMAT</th>
+                                        <th>KOTA/KAB ASAL</th>
+                                        <th>INFO PROGRAM</th>
+                                        <th>NAMA ORTU</th>
+                                        <th>HP ORTU</th>
+                                        <th>INFORMASI DARI</th>
+                                        <th>TGL INPUT</th>
+                                        ${isAdmin ? '<th class="sticky right-0 bg-blue-600 col-aksi">AKSI</th>' : ''}
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-leads">
+                                    ${filteredData.length === 0 ? `
+                                        <tr><td colspan="${isAdmin ? '16' : '15'}" class="p-8 text-center text-blue-600 font-medium tracking-tight">Belum ada data leads untuk filter ini.</td></tr>
+                                        ` : filteredData.map((lead, idx) => {
+                                            const infoDari = Array.isArray(lead.info_villa_merah_dari) ? lead.info_villa_merah_dari.join(', ') : (lead.info_villa_merah_dari || '-');
+                                            const platform = Array.isArray(lead.platform_medsos) ? lead.platform_medsos.join(', ') : (lead.platform_medsos || '-');
+                                            const isClosingStatus = lead.is_closing || lead.status_crm === 'Deal';
+                                            return `
+                                        <tr class="border-b border-blue-100 hover:bg-blue-50 text-gray-700 transition-colors ${isClosingStatus ? 'bg-emerald-50' : ''}">
+                                            <td class="p-2 text-center text-[10px] font-mono tracking-tighter">${idx + 1}</td>
+                                            <td class="p-2 text-left text-[10px] font-bold ${isClosingStatus ? 'text-emerald-700' : 'text-black'} uppercase tracking-tight" title="${lead.nama_siswa}">${lead.nama_siswa} ${isClosingStatus ? '✓' : ''}</td>
+                                            <td class="p-2 text-left text-[10px] font-semibold text-blue-800 uppercase tracking-tight" title="${lead.ttl || '-'}">${lead.ttl || '-'}</td>
+                                            <td class="p-2 text-left text-[10px] uppercase tracking-tighter" title="${lead.nama_siswa}">${lead.asal_sekolah}</td>
+                                            <td class="p-2 text-center text-[10px] uppercase tracking-tighter font-mono">${lead.kelas || '-'}</td>
+                                            <td class="p-2 text-center text-[10px] font-mono tracking-tighter">${lead.no_hp}</td>
+                                            <td class="p-2 text-left">
+                                                <span class="bg-blue-100 text-blue-800 px-1 py-0.5 rounded text-[9px] font-bold uppercase whitespace-nowrap tracking-tighter">${platform}</span>
+                                            </td>
+                                            <td class="p-2 text-left text-[10px] uppercase tracking-tighter" title="${lead.nama_medsos}">${lead.nama_medsos}</td>
+                                            <td class="p-2 text-left text-[10px] uppercase allow-wrap tracking-tighter" title="${lead.alamat}">${lead.alamat}</td>
+                                            <td class="p-2 text-left text-[10px] uppercase tracking-tight" title="${lead.asal_kota}">${lead.asal_kota || '-'}</td>
+                                            <td class="p-2 text-left text-[10px] font-bold text-black uppercase tracking-tighter">${lead.program || '-'}</td>
+                                            <td class="p-2 text-left text-[10px] uppercase tracking-tight">${lead.nama_ortu || '-'}</td>
+                                            <td class="p-2 text-center text-[10px] font-mono">${lead.no_tlp_ortu || '-'}</td>
+                                            <td class="p-2 text-left text-[10px] uppercase allow-wrap tracking-tight" title="${infoDari}">${infoDari}</td>
+                                            <td class="p-2 text-center text-[10px] font-mono tracking-tighter">${formatTanggal(lead.tanggal_input || lead.createdAt)}</td>
+                                            ${isAdmin ? `
+                                            <td class="p-2 text-center sticky right-0 bg-white border-l border-blue-100 shadow-[-5px_0_10px_rgba(0,0,0,0.05)] col-aksi">
+                                                <div class="flex flex-row justify-center gap-2 items-center">
+                                                    <button onclick="showEditLeadsForm('${lead.__backendId}')" class="text-blue-600 hover:text-blue-800 font-bold uppercase text-[9px]">EDIT</button>
+                                                    <button onclick="deleteData('${lead.__backendId}')" class="text-red-600 hover:text-red-700 font-bold uppercase text-[9px]">HAPUS</button>
+                                                </div>
+                                            </td>` : ''}
+                                        </tr>
+                                    `}).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function applyLeadsFilter() {
+            selectedStatusFilter = document.getElementById('status-filter-leads')?.value || 'all'; 
+            selectedProgramFilter = document.getElementById('program-filter-leads')?.value || 'all';
+            selectedMonthFilter = document.getElementById('month-filter-leads')?.value || 'all';
+            selectedYearFilter = document.getElementById('year-filter-leads')?.value || 'all';
+            renderDataLeadsDetail();
+        }
+
+        function showAddDataLeadsForm(location) {
+            renderLeadsForm(location);
+        }
+
+        function showEditLeadsForm(backendId) {
+            const data = currentData.find(d => d.__backendId === backendId);
+            if (!data) return;
+            renderLeadsForm(data.wilayah, data);
+        }
+
+        function renderLeadsForm(location, editData = null) {
+            const content = document.getElementById('main-content');
+            const isEdit = !!editData;
+            
+            const allPrograms = getLeadsProgramsList();
+            
+            const tglDefaultLeads = isEdit ? new Date(editData.createdAt).toISOString().split('T')[0] : '';
+
+            content.innerHTML = `
+                <div class="bg-white rounded-lg p-6 shadow-xl max-w-full mx-auto border border-blue-200 font-['Poppins']">
+                    <h2 class="text-2xl font-bold text-blue-600 mb-6 uppercase text-left">${isEdit ? 'Edit' : 'Tambah'} Lead - ${location}</h2>
+                    <form id="form-data-leads" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4">
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">Nama Siswa</label><input type="text" name="nama_siswa" value="${isEdit ? editData.nama_siswa : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">Tempat Tanggal Lahir</label><input type="text" name="ttl" value="${isEdit ? (editData.ttl || '') : ''}" required placeholder="Misal: Bandung, 1 Januari 2008" class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            <div class="text-left">
+                                <label class="block text-sm font-bold mb-1">Program</label>
+                                <select name="program" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']">
+                                    <option value="">Pilih Program</option>
+                                    ${allPrograms.map(prog => `<option value="${prog}" ${isEdit && editData.program === prog ? 'selected' : ''}>${prog}</option>`).join('')}
+                                </select>
+                            </div>
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">Asal Sekolah</label><input type="text" name="asal_sekolah" value="${isEdit ? editData.asal_sekolah : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">Kelas</label><input type="text" name="kelas" value="${isEdit ? (editData.kelas || '') : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">Asal Kota/Kab</label><input type="text" name="asal_kota" value="${isEdit ? (editData.asal_kota || '') : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">No HP Siswa</label><input type="text" name="no_hp" value="${isEdit ? editData.no_hp : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">Nama Akun Medsos</label><input type="text" name="nama_medsos" value="${isEdit ? editData.nama_medsos : ''}" class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">Nama Orang Tua</label><input type="text" name="nama_ortu" value="${isEdit ? (editData.nama_ortu || '') : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            <div class="text-left"><label class="block text-sm font-bold mb-1">No Telepon Orang Tua</label><input type="text" name="no_tlp_ortu" value="${isEdit ? (editData.no_tlp_ortu || '') : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']"></div>
+                            <div class="text-left">
+                                <label class="block text-sm font-bold mb-1">Tanggal Input</label>
+                                <input type="date" name="tanggal_input" value="${tglDefaultLeads}" required 
+                                       class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']">
+                            </div>
+                            <div class="text-left">
+                                <label class="block text-sm font-bold mb-1">Alamat</label>
+                                <input type="text" name="alamat" value="${isEdit ? editData.alamat : ''}" required class="w-full p-2 border rounded border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 font-['Poppins']">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex flex-col text-left">
+                                <label class="block text-sm font-bold mb-2 text-blue-600">Informasi VM Dari</label>
+                                <div class="grid grid-cols-2 gap-2 p-3 border rounded border-blue-300 bg-white h-[110px] overflow-y-auto">
+                                    ${daftarSumberInfo.map(info => `
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-blue-50 p-1 rounded transition-colors text-[10px]">
+                                            <input type="checkbox" name="info_villa_merah_dari" value="${info}" class="lead-info-checkbox h-3 w-3" ${isEdit && editData.info_villa_merah_dari?.includes(info) ? 'checked' : ''}>
+                                            <span class="whitespace-nowrap tracking-tight">${info}</span>
+                                        </label>`).join('')}
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col text-left">
+                                <label class="block text-sm font-bold mb-2 text-blue-600">Media Sosial</label>
+                                <div class="grid grid-cols-2 gap-2 p-3 border rounded border-blue-300 bg-white h-[110px] overflow-y-auto">
+                                    ${['Instagram','TikTok','Facebook','Twitter','YouTube','Lainnya'].map(p => `
+                                        <label class="flex items-center gap-2 cursor-pointer hover:bg-blue-50 p-1 rounded transition-colors text-[10px]">
+                                            <input type="checkbox" name="platform_medsos" value="${p}" class="lead-platform-checkbox h-3 w-3" ${isEdit && editData.platform_medsos?.includes(p) ? 'checked' : ''}>
+                                            <span class="whitespace-nowrap tracking-tight">${p}</span>
+                                        </label>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 mt-8">
+                            <button type="submit" class="bg-blue-600 text-white px-8 py-2.5 rounded font-bold uppercase hover:bg-blue-700 transition shadow-md">${isEdit ? 'Update' : 'Simpan'}</button>
+                            <button type="button" onclick="navigateTo('data-leads', '${location}')" class="bg-gray-500 text-white px-8 py-2.5 rounded font-bold uppercase hover:bg-gray-600 transition shadow-md">Batal</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.querySelectorAll('.lead-platform-checkbox').forEach(cb => {
+                cb.onchange = () => {
+                    const checkedCount = document.querySelectorAll('.lead-platform-checkbox:checked').length;
+                    if (checkedCount > 3) {
+                        cb.checked = false;
+                        alert('Maksimal pilih 3 media sosial!');
+                    }
+                };
+            });
+
+            document.querySelectorAll('.lead-info-checkbox').forEach(cb => {
+                cb.onchange = () => {
+                    const checkedCount = document.querySelectorAll('.lead-info-checkbox:checked').length;
+                    if (checkedCount > 3) {
+                        cb.checked = false;
+                        alert('Maksimal pilih 3 sumber informasi!');
+                    }
+                };
+            });
+
+            document.getElementById('form-data-leads').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fd = new FormData(e.target);
+                const selectedPlatforms = Array.from(document.querySelectorAll('.lead-platform-checkbox:checked')).map(cb => cb.value);
+                const selectedInfo = Array.from(document.querySelectorAll('.lead-info-checkbox:checked')).map(cb => cb.value);
+                const tglLeads = fd.get('tanggal_input');
+                
+                const payload = Object.fromEntries(fd.entries());
+                payload.wilayah = location;
+                payload.platform_medsos = selectedPlatforms;
+                payload.info_villa_merah_dari = selectedInfo;
+                if (!isEdit) payload.tgl_followup = "";
+                payload.createdAt = tglLeads ? new Date(tglLeads).toISOString() : new Date().toISOString();
+
+                let result;
+                if (isEdit) {
+                    result = await window.dataSdk.update(editData.__backendId, payload);
+                } else {
+                    result = await window.dataSdk.create({ ...payload, module: 'data-leads' });
+                }
+                if (result.isOk) navigateTo('data-leads', location);
+            });
+        }
+        
+        const dataHandler = {
+            onDataChanged(data) {
+                currentData = data;
+                renderContent();
+            }
+        };
+        
+        async function initializeApp() {
+            try {
+                await window.dataSdk.init(dataHandler);
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
+            renderSidebar();
+            renderContent();
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            initializeApp();
+        }
+
+        function formatTanggalRaw(label) {
+            const mapSingkatan = { 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'Mei': 5, 'Jun': 6, 'Jul': 7, 'Agu': 8, 'Sep': 9, 'Okt': 10, 'Nov': 11, 'Des': 12 };
+            const m = mapSingkatan[label];
+            if (!m) return 0;
+
+            const matches = currentData.filter(d => {
+                const dt = new Date(d.createdAt);
+                const isMonthMatch = (dt.getMonth() + 1) === m;
+                const isYearMatch = selectedYear === 'all' || dt.getFullYear() == selectedYear;
+                return d.module === 'data-siswa' && isMonthMatch && isYearMatch;
+            });
+
+            return matches.reduce((acc, curr) => acc + (parseFloat(curr.biaya_pendidikan || 0) - parseFloat(curr.sisa_angsuran || 0)), 0);
+        }
+
+        function formatTanggal(dateStr) {
+            if (!dateStr) return '-';
+            const d = new Date(dateStr);
+            const day = d.getDate();
+            const month = d.getMonth() + 1;
+            const year = d.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+    </script>
+ </body>
+</html>
