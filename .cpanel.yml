@@ -3,9 +3,9 @@ deployment:
     - export PATH=/opt/cpanel/composer/bin:/opt/cpanel/ea-php82/root/usr/bin:/opt/cpanel/ea-nodejs18/bin:/opt/cpanel/ea-nodejs16/bin:/opt/cpanel/ea-nodejs14/bin:$PATH
     - export PHP_BIN=/opt/cpanel/ea-php82/root/usr/bin/php
     - /bin/mkdir -p /home/u1521077/public_html/lpsvmi.bimbelgambar.id
-    - /bin/mkdir -p /home/u1521077/public_html/lpsvmi.bimbelgambar.id/storage /home/u1521077/public_html/lpsvmi.bimbelgambar.id/bootstrap/cache
+    - /bin/mkdir -p /home/u1521077/public_html/lpsvmi.bimbelgambar.id/storage /home/u1521077/public_html/lpsvmi.bimbelgambar.id/storage/app/public /home/u1521077/public_html/lpsvmi.bimbelgambar.id/bootstrap/cache
     - /bin/rsync -a --delete --exclude '.git' --exclude '.env' --exclude 'storage' --exclude 'vendor' ./ /home/u1521077/public_html/lpsvmi.bimbelgambar.id
     - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && $PHP_BIN -d disable_functions= /opt/cpanel/composer/bin/composer install --no-dev --prefer-dist --optimize-autoloader --no-scripts
     - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && $PHP_BIN artisan package:discover --ansi
     - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && $PHP_BIN artisan migrate --force
-    - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && $PHP_BIN artisan storage:link
+    - /bin/ln -sfn /home/u1521077/public_html/lpsvmi.bimbelgambar.id/storage/app/public /home/u1521077/public_html/lpsvmi.bimbelgambar.id/public/storage
