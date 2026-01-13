@@ -5,7 +5,5 @@ deployment:
     - /bin/mkdir -p /home/u1521077/public_html/lpsvmi.bimbelgambar.id/storage /home/u1521077/public_html/lpsvmi.bimbelgambar.id/bootstrap/cache
     - /bin/rsync -a --delete --exclude '.git' --exclude '.env' --exclude 'storage' --exclude 'vendor' ./ /home/u1521077/public_html/lpsvmi.bimbelgambar.id
     - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && composer install --no-dev --prefer-dist --optimize-autoloader
-    - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && npm install
-    - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && npm run build
     - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && php artisan migrate --force
     - cd /home/u1521077/public_html/lpsvmi.bimbelgambar.id && php artisan storage:link
