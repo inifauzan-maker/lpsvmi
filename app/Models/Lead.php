@@ -41,4 +41,8 @@ class Lead extends Model
         'tanggal_closing' => 'date',
         'is_closing' => 'boolean',
     ];
+
+    protected $attributes = [
+        'is_closing' => false,
+    ];
 }
