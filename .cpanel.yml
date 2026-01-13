@@ -1,0 +1,12 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/u1521077/public_html/lpsvmi.bimbelgambar.id
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/mkdir -p $DEPLOYPATH/storage $DEPLOYPATH/bootstrap/cache
+    - /bin/rsync -a --delete --exclude '.git' --exclude '.env' --exclude 'storage' --exclude 'vendor' ./ $DEPLOYPATH
+    - cd $DEPLOYPATH && composer install --no-dev --prefer-dist --optimize-autoloader
+    - cd $DEPLOYPATH && npm install
+    - cd $DEPLOYPATH && npm run build
+    - cd $DEPLOYPATH && php artisan migrate --force
+    - cd $DEPLOYPATH && php artisan storage:link
