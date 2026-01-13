@@ -1,5 +1,6 @@
 deployment:
   tasks:
+    - export PATH=/opt/cpanel/composer/bin:/opt/cpanel/ea-php82/root/usr/bin:/opt/cpanel/ea-nodejs18/bin:/opt/cpanel/ea-nodejs16/bin:/opt/cpanel/ea-nodejs14/bin:$PATH
     - /bin/mkdir -p /home/u1521077/public_html/lpsvmi.bimbelgambar.id
     - /bin/mkdir -p /home/u1521077/public_html/lpsvmi.bimbelgambar.id/storage /home/u1521077/public_html/lpsvmi.bimbelgambar.id/bootstrap/cache
     - /bin/rsync -a --delete --exclude '.git' --exclude '.env' --exclude 'storage' --exclude 'vendor' ./ /home/u1521077/public_html/lpsvmi.bimbelgambar.id
