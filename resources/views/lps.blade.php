@@ -3319,6 +3319,7 @@
                 payload.wilayah = location;
                 payload.platform_medsos = selectedPlatforms;
                 payload.info_villa_merah_dari = selectedInfo;
+                payload.is_closing = isEdit ? !!editData.is_closing : false;
                 if (!isEdit) payload.tgl_followup = "";
                 payload.createdAt = tglLeads ? new Date(tglLeads).toISOString() : new Date().toISOString();
 
